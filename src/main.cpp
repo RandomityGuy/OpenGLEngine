@@ -52,53 +52,66 @@ int main()
     Texture2D texture;
     texture.setWrap(Texture2D::Wrap::Repeat, Texture2D::Wrap::Repeat);
     texture.setFiltering(Texture2D::LinearMipMapLinear, Texture2D::Linear);
-    texture.load("data/container.jpg");
+    texture.load("data/container2.png");
     texture.generateMipMaps();
+
+    Texture2D textureSpecular;
+    textureSpecular.setWrap(Texture2D::Wrap::Repeat, Texture2D::Wrap::Repeat);
+    textureSpecular.setFiltering(Texture2D::LinearMipMapLinear, Texture2D::Linear);
+    textureSpecular.load("data/container2_specular.png");
+    textureSpecular.generateMipMaps();
+
+    Texture2D textureEmissive;
+    textureEmissive.setWrap(Texture2D::Wrap::Repeat, Texture2D::Wrap::Repeat);
+    textureEmissive.setFiltering(Texture2D::LinearMipMapLinear, Texture2D::Linear);
+    textureEmissive.load("data/matrix.jpg");
+    textureEmissive.generateMipMaps();
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float vertices[] = {
-        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+        // positions          // normals           // texture coords
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
 
-        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
 
-        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
 
-        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-         0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
     };
     unsigned int indices[] = {  // note that we start from 0!
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35
@@ -127,11 +140,14 @@ int main()
 
     EBO.uploadData(sizeof(indices), indices, IndexBuffer::BufferDrawType::Static);
 
-    GL::vertexAttribPointer(0, 3, GL_FLOAT, 2 * 3 * sizeof(float), 0, false);
+    GL::vertexAttribPointer(0, 3, GL_FLOAT, 2 * 3 * sizeof(float) + 2 * sizeof(float), 0, false);
     GL::enableVertexAttribArray(0);
 
-    GL::vertexAttribPointer(1, 3, GL_FLOAT, 2 * 3 * sizeof(float), 3 * sizeof(float), false);
+    GL::vertexAttribPointer(1, 3, GL_FLOAT, 2 * 3 * sizeof(float) + 2 * sizeof(float), 3 * sizeof(float), false);
     GL::enableVertexAttribArray(1);
+
+    GL::vertexAttribPointer(2, 2, GL_FLOAT, 2 * 3 * sizeof(float) + 2 * sizeof(float), 2 * 3 * sizeof(float), false);
+    GL::enableVertexAttribArray(2);
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
     GL::bindBuffer(GL::BufferTarget::ArrayBuffer, 0);
@@ -140,10 +156,10 @@ int main()
     lightVAO.bind();
     VBO.bind();
 
-    GL::vertexAttribPointer(0, 3, GL_FLOAT, 2 * 3 * sizeof(float), 0, false);
+    GL::vertexAttribPointer(0, 3, GL_FLOAT, 2 * 3 * sizeof(float) + 2 * sizeof(float), 0, false);
     GL::enableVertexAttribArray(0);
 
-    GL::vertexAttribPointer(1, 3, GL_FLOAT, 2 * 3 * sizeof(float), 3 * sizeof(float), false);
+    GL::vertexAttribPointer(1, 3, GL_FLOAT, 2 * 3 * sizeof(float) + 2 * sizeof(float), 3 * sizeof(float), false);
     GL::enableVertexAttribArray(1);
 
     // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
@@ -203,21 +219,17 @@ int main()
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
 
-            glm::vec3 lightColor;
-            lightColor.x = sin(glfwGetTime() * 2.0f);
-            lightColor.y = sin(glfwGetTime() * 0.7f);
-            lightColor.z = sin(glfwGetTime() * 1.3f);
+            glm::vec3 diffuseColor = glm::vec3(0.5f, 0.5f, 0.5f);
+            glm::vec3 ambientColor = glm::vec3(0.2f, 0.2f, 0.2f);
 
-            glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
-            glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
-
+            shader->activateTexture(texture, "material.diffuse", 0);
+            shader->activateTexture(textureSpecular, "material.specular", 1);
+            shader->activateTexture(textureEmissive, "material.emission", 2);
             // model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             shader->setUniform("light.ambient",ambientColor);
             shader->setUniform("light.diffuse", diffuseColor); // darken diffuse light a bit
             shader->setUniform("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-            shader->setUniform("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
-            shader->setUniform("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
-            shader->setUniform("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+            shader->setUniform("material.diffuse", 0);
             shader->setUniform("material.shininess", 32.0f);
             shader->setUniform("model", model);
             shader->setUniform("light.position", lightPos);

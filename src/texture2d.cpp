@@ -20,7 +20,17 @@ void Texture2D::bind()
 void Texture2D::load(const char* path)
 {
 	unsigned char* data = stbi_load(path, &width, &height, &numChannels, 0);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+	GLenum format;
+	if (numChannels == 1)
+		format = GL_RED;
+	else if (numChannels == 3)
+		format = GL_RGB;
+	else if (numChannels == 4)
+		format = GL_RGBA;
+
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	stbi_image_free(data);
 }

@@ -148,8 +148,9 @@ void Shader::setUniform<glm::vec3>(const char* name, glm::vec3 value)
 	glUniform3f(this->getUniformLocation(name), value.x, value.y, value.z);
 }
 
-void Shader::activateTexture(Texture2D texture, int index)
+void Shader::activateTexture(Texture2D& texture, const char* uniformName, int index)
 {
 	glActiveTexture(GL_TEXTURE0 + index);
 	texture.bind();
+	this->setUniform(uniformName, index);
 }
