@@ -197,7 +197,7 @@ void Camera::move(float dt, Move move)
 	this->lookAtPoint += fwd;
 	this->position += fwd;
 
-	glm::vec3 sidewaysdir = glm::cross(direction, up);
+	glm::vec3 sidewaysdir = glm::normalize(glm::cross(direction, up));
 	glm::vec3 sideways = dt * cameraSpeed * sgn(move.dir.x) * sidewaysdir;
 
 	this->lookAtPoint += sideways;

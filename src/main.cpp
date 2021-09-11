@@ -58,47 +58,47 @@ int main()
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float vertices[] = {
-    -0.5f, -0.5f, -0.5f,
-     0.5f, -0.5f, -0.5f,
-     0.5f,  0.5f, -0.5f,
-     0.5f,  0.5f, -0.5f,
-    -0.5f,  0.5f, -0.5f,
-    -0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-    -0.5f, -0.5f,  0.5f,
-     0.5f, -0.5f,  0.5f,
-     0.5f,  0.5f,  0.5f,
-     0.5f,  0.5f,  0.5f,
-    -0.5f,  0.5f,  0.5f,
-    -0.5f, -0.5f,  0.5f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
 
-    -0.5f,  0.5f,  0.5f,
-    -0.5f,  0.5f, -0.5f,
-    -0.5f, -0.5f, -0.5f,
-    -0.5f, -0.5f, -0.5f,
-    -0.5f, -0.5f,  0.5f,
-    -0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-     0.5f,  0.5f,  0.5f,
-     0.5f,  0.5f, -0.5f,
-     0.5f, -0.5f, -0.5f,
-     0.5f, -0.5f, -0.5f,
-     0.5f, -0.5f,  0.5f,
-     0.5f,  0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-    -0.5f, -0.5f, -0.5f,
-     0.5f, -0.5f, -0.5f,
-     0.5f, -0.5f,  0.5f,
-     0.5f, -0.5f,  0.5f,
-    -0.5f, -0.5f,  0.5f,
-    -0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-    -0.5f,  0.5f, -0.5f,
-     0.5f,  0.5f, -0.5f,
-     0.5f,  0.5f,  0.5f,
-     0.5f,  0.5f,  0.5f,
-    -0.5f,  0.5f,  0.5f,
-    -0.5f,  0.5f, -0.5f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
     };
     unsigned int indices[] = {  // note that we start from 0!
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35
@@ -127,8 +127,11 @@ int main()
 
     EBO.uploadData(sizeof(indices), indices, IndexBuffer::BufferDrawType::Static);
 
-    GL::vertexAttribPointer(0, 3, GL_FLOAT, 3 * sizeof(float), 0, false);
+    GL::vertexAttribPointer(0, 3, GL_FLOAT, 2 * 3 * sizeof(float), 0, false);
     GL::enableVertexAttribArray(0);
+
+    GL::vertexAttribPointer(1, 3, GL_FLOAT, 2 * 3 * sizeof(float), 3 * sizeof(float), false);
+    GL::enableVertexAttribArray(1);
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
     GL::bindBuffer(GL::BufferTarget::ArrayBuffer, 0);
@@ -136,8 +139,12 @@ int main()
     VertexArray lightVAO;
     lightVAO.bind();
     VBO.bind();
-    GL::vertexAttribPointer(0, 3, GL_FLOAT, 3 * sizeof(float), 0, false);
+
+    GL::vertexAttribPointer(0, 3, GL_FLOAT, 2 * 3 * sizeof(float), 0, false);
     GL::enableVertexAttribArray(0);
+
+    GL::vertexAttribPointer(1, 3, GL_FLOAT, 2 * 3 * sizeof(float), 3 * sizeof(float), false);
+    GL::enableVertexAttribArray(1);
 
     // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
     //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -195,10 +202,26 @@ int main()
             glm::mat4 model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
-            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            shader->setUniform("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
-            shader->setUniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+
+            glm::vec3 lightColor;
+            lightColor.x = sin(glfwGetTime() * 2.0f);
+            lightColor.y = sin(glfwGetTime() * 0.7f);
+            lightColor.z = sin(glfwGetTime() * 1.3f);
+
+            glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
+            glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
+
+            // model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+            shader->setUniform("light.ambient",ambientColor);
+            shader->setUniform("light.diffuse", diffuseColor); // darken diffuse light a bit
+            shader->setUniform("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+            shader->setUniform("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
+            shader->setUniform("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
+            shader->setUniform("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+            shader->setUniform("material.shininess", 32.0f);
             shader->setUniform("model", model);
+            shader->setUniform("light.position", lightPos);
+            shader->setUniform("viewPos", camera.position);
 
             glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         }
