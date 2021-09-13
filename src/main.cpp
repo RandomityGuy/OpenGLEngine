@@ -152,16 +152,6 @@ int main()
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
     GL::bindBuffer(GL::BufferTarget::ArrayBuffer, 0);
 
-    VertexArray lightVAO;
-    lightVAO.bind();
-    VBO.bind();
-
-    GL::vertexAttribPointer(0, 3, GL_FLOAT, 2 * 3 * sizeof(float) + 2 * sizeof(float), 0, false);
-    GL::enableVertexAttribArray(0);
-
-    GL::vertexAttribPointer(1, 3, GL_FLOAT, 2 * 3 * sizeof(float) + 2 * sizeof(float), 3 * sizeof(float), false);
-    GL::enableVertexAttribArray(1);
-
     // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
     //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -187,7 +177,14 @@ int main()
 
     double prevT = glfwGetTime();
 
-    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+    glm::vec3 lightPos(-0.2f, -1.0f, -0.3f);
+
+    glm::vec3 pointLightPositions[] = {
+        glm::vec3(0.7f,  0.2f,  2.0f),
+        glm::vec3(2.3f, -3.3f, -4.0f),
+        glm::vec3(-4.0f,  2.0f, -12.0f),
+        glm::vec3(0.0f,  0.0f, -3.0f)
+    };
 
     while (!window->shouldClose())
     {
@@ -225,29 +222,62 @@ int main()
             shader->activateTexture(texture, "material.diffuse", 0);
             shader->activateTexture(textureSpecular, "material.specular", 1);
             shader->activateTexture(textureEmissive, "material.emission", 2);
-            // model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            shader->setUniform("light.ambient",ambientColor);
-            shader->setUniform("light.diffuse", diffuseColor); // darken diffuse light a bit
-            shader->setUniform("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+            shader->setUniform("dirLight.ambient",ambientColor);
+            shader->setUniform("dirLight.diffuse", diffuseColor); // darken diffuse light a bit
+            shader->setUniform("dirLight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
             shader->setUniform("material.diffuse", 0);
             shader->setUniform("material.shininess", 32.0f);
             shader->setUniform("model", model);
-            shader->setUniform("light.position", lightPos);
+            shader->setUniform("dirLight.direction", lightPos);
             shader->setUniform("viewPos", camera.position);
+
+            shader->setUniform("pointLights[0].position", pointLightPositions[0]);
+            shader->setUniform("pointLights[0].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+            shader->setUniform("pointLights[0].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+            shader->setUniform("pointLights[0].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+            shader->setUniform("pointLights[0].constant", 1.0f);
+            shader->setUniform("pointLights[0].linear", 0.09);
+            shader->setUniform("pointLights[0].quadratic", 0.032);
+            // point light 2
+            shader->setUniform("pointLights[1].position", pointLightPositions[1]);
+            shader->setUniform("pointLights[1].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+            shader->setUniform("pointLights[1].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+            shader->setUniform("pointLights[1].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+            shader->setUniform("pointLights[1].constant", 1.0f);
+            shader->setUniform("pointLights[1].linear", 0.09);
+            shader->setUniform("pointLights[1].quadratic", 0.032);
+            // point light 3
+            shader->setUniform("pointLights[2].position", pointLightPositions[2]);
+            shader->setUniform("pointLights[2].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+            shader->setUniform("pointLights[2].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+            shader->setUniform("pointLights[2].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+            shader->setUniform("pointLights[2].constant", 1.0f);
+            shader->setUniform("pointLights[2].linear", 0.09);
+            shader->setUniform("pointLights[2].quadratic", 0.032);
+            // point light 4
+            shader->setUniform("pointLights[3].position", pointLightPositions[3]);
+            shader->setUniform("pointLights[3].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+            shader->setUniform("pointLights[3].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+            shader->setUniform("pointLights[3].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+            shader->setUniform("pointLights[3].constant", 1.0f);
+            shader->setUniform("pointLights[3].linear", 0.09);
+            shader->setUniform("pointLights[3].quadratic", 0.032);
+            // spotLight
+            shader->setUniform("spotLight.position", camera.position);
+            shader->setUniform("spotLight.direction", camera.direction);
+            shader->setUniform("spotLight.ambient", glm::vec3(0.0f, 0.0f, 0.0f));
+            shader->setUniform("spotLight.diffuse", glm::vec3(1.0f, 1.0f, 1.0f));
+            shader->setUniform("spotLight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+            shader->setUniform("spotLight.constant", 1.0f);
+            shader->setUniform("spotLight.linear", 0.09);
+            shader->setUniform("spotLight.quadratic", 0.032);
+            shader->setUniform("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+            shader->setUniform("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+
 
             glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         }
-
-
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, lightPos);
-        model = glm::scale(model, glm::vec3(0.2f));
-        lightingShader->activate();
-        lightingShader->setUniform("view", camera.view);
-        lightingShader->setUniform("projection", camera.projection);
-        lightingShader->setUniform("model", model);
-        lightVAO.bind();
-        glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
         window->swapBuffers();
