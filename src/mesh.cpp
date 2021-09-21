@@ -247,28 +247,28 @@ void Mesh::render(Shader* shader)
         else
             shader->setUniform("material.hasDiffuse", false);
 
-        //if (material.specularTexture2D != NULL)
-        //{
-        //    shader->activateTexture(*material.specularTexture2D, "material.specular", 2);
-        //    shader->setUniform("material.hasSpecular", true);
-        //}
-        //else
-        //    shader->setUniform("material.hasSpecular", false);
+        if (material.specularTexture2D != NULL)
+        {
+            shader->activateTexture(*material.specularTexture2D, "material.specular", 2);
+            shader->setUniform("material.hasSpecular", true);
+        }
+        else
+            shader->setUniform("material.hasSpecular", false);
 
-        ////if (material.emissionTexture2D != NULL)
-        ////{
-        ////    shader->activateTexture(*material.emissionTexture2D, "material.emission", 3);
-        ////    shader->setUniform("material.hasEmission", true);
-        ////}
-        ////else
-        ////    shader->setUniform("material.hasEmission", false);
+        if (material.emissionTexture2D != NULL)
+        {
+            shader->activateTexture(*material.emissionTexture2D, "material.emission", 3);
+            shader->setUniform("material.hasEmission", true);
+        }
+        else
+            shader->setUniform("material.hasEmission", false);
 
         shader->setUniform("material.ambientColor", material.ambientColor);
         shader->setUniform("material.diffuseColor", material.diffuseColor);
-        // shader->setUniform("material.specularColor", material.specularColor);
-        // // shader->setUniform("material.emissionColor", material.emissionColor);
+        shader->setUniform("material.specularColor", material.specularColor);
+        shader->setUniform("material.emissionColor", material.emissionColor);
 
-        // shader->setUniform("material.shininess", material.shininess);
+        shader->setUniform("material.shininess", material.shininess);
 
         vgroup.VAO->bind();
         glDrawElements(GL_TRIANGLES, vgroup.indices.size(), GL_UNSIGNED_INT, 0);

@@ -46,7 +46,7 @@ public:
 		glm::vec3 emissionColor;
 		std::string emissionTex;
 		Texture2D* emissionTexture2D = NULL;
-		int shininess;
+		float shininess;
 	};
 
 	std::vector<VertexGroup> vertexGroups;
