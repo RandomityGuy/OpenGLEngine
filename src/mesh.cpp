@@ -23,8 +23,17 @@ void Mesh::load(const char* path)
 
 	std::string err;
 
+    std::string filename = std::string(path);
+    std::string directory;
+    size_t last_slash_idx = filename.rfind('\\');
+    if (std::string::npos == last_slash_idx)
+        last_slash_idx = filename.rfind('/');
+    if (std::string::npos != last_slash_idx)
+    {
+        directory = filename.substr(0, last_slash_idx) + "/";
+    }
 
-	bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, path);
+	bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, path, directory.c_str());
 
 	if (!err.empty()) {
 		std::cerr << err << std::endl;
@@ -45,8 +54,6 @@ void Mesh::load(const char* path)
     for (size_t s = 0; s < shapes.size(); s++) {
         // Loop over faces(polygon)
         size_t index_offset = 0;
-
-        std::map<int, int> indexMap;
 
         for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f++) {
             size_t fv = size_t(shapes[s].mesh.num_face_vertices[f]);
@@ -86,12 +93,6 @@ void Mesh::load(const char* path)
                 // access to vertex
                 tinyobj::index_t idx = shapes[s].mesh.indices[index_offset + v];
 
-                if (indexMap.find(idx.vertex_index) != indexMap.end())
-                {
-                    face->indices.push_back(indexMap[idx.vertex_index]);
-                    continue;
-                }
-
                 Mesh::Vertex vert;
 
                 float vx = attrib.vertices[3 * size_t(idx.vertex_index) + 0];
@@ -118,8 +119,7 @@ void Mesh::load(const char* path)
                     vert.uv = uv;
                 }
 
-                indexMap.insert(std::make_pair(idx.vertex_index, face->vertices.size()));
-
+                face->indices.push_back(face->vertices.size());
                 face->vertices.push_back(vert);
             }
             index_offset += fv;
@@ -193,16 +193,15 @@ void Mesh::generateBuffers()
         v.VBO->uploadData(v.vertices.size() * sizeof(Mesh::Vertex), v.vertices.data(), VertexBuffer::Static);
         v.EBO->uploadData(v.indices.size() * sizeof(int), v.indices.data(), IndexBuffer::Static);
 
-        GL::vertexAttribPointer(0, 3, GL_FLOAT, 2 * 3 * sizeof(float) + 2 * sizeof(float), 0, false);
         GL::enableVertexAttribArray(0);
-
-        GL::vertexAttribPointer(1, 3, GL_FLOAT, 2 * 3 * sizeof(float) + 2 * sizeof(float), 3 * sizeof(float), false);
+        GL::vertexAttribPointer(0, 3, GL_FLOAT, sizeof(Mesh::Vertex), 0, false);
+        
         GL::enableVertexAttribArray(1);
+        GL::vertexAttribPointer(1, 3, GL_FLOAT, sizeof(Mesh::Vertex), offsetof(Mesh::Vertex, normal), false);
 
-        GL::vertexAttribPointer(2, 2, GL_FLOAT, 2 * 3 * sizeof(float) + 2 * sizeof(float), 2 * 3 * sizeof(float), false);
         GL::enableVertexAttribArray(2);
+        GL::vertexAttribPointer(2, 2, GL_FLOAT, sizeof(Mesh::Vertex), offsetof(Mesh::Vertex, uv), false);
 
-        GL::bindBuffer(GL::BufferTarget::ArrayBuffer, 0);
         GL::bindVertexArray(0);
     }
     this->_generatedBuffers = true;
@@ -235,41 +234,41 @@ void Mesh::render(Shader* shader)
         if (material.ambientTexture2D != NULL)
         {
             shader->activateTexture(*material.ambientTexture2D, "material.ambient", 0);
-            shader->setUniform("hasAmbient", true);
+            shader->setUniform("material.hasAmbient", true);
         }
         else
-            shader->setUniform("hasAmbient", false);
+            shader->setUniform("material.hasAmbient", false);
 
         if (material.diffuseTexture2D != NULL)
         {
             shader->activateTexture(*material.diffuseTexture2D, "material.diffuse", 1);
-            shader->setUniform("hasDiffuse", true);
+            shader->setUniform("material.hasDiffuse", true);
         }
         else
-            shader->setUniform("hasDiffuse", false);
+            shader->setUniform("material.hasDiffuse", false);
 
-        if (material.specularTexture2D != NULL)
-        {
-            shader->activateTexture(*material.specularTexture2D, "material.specular", 2);
-            shader->setUniform("hasSpecular", true);
-        }
-        else
-            shader->setUniform("hasSpecular", false);
+        //if (material.specularTexture2D != NULL)
+        //{
+        //    shader->activateTexture(*material.specularTexture2D, "material.specular", 2);
+        //    shader->setUniform("material.hasSpecular", true);
+        //}
+        //else
+        //    shader->setUniform("material.hasSpecular", false);
 
-        if (material.emissionTexture2D != NULL)
-        {
-            shader->activateTexture(*material.emissionTexture2D, "material.emission", 3);
-            shader->setUniform("hasEmission", true);
-        }
-        else
-            shader->setUniform("hasEmission", false);
+        ////if (material.emissionTexture2D != NULL)
+        ////{
+        ////    shader->activateTexture(*material.emissionTexture2D, "material.emission", 3);
+        ////    shader->setUniform("material.hasEmission", true);
+        ////}
+        ////else
+        ////    shader->setUniform("material.hasEmission", false);
 
         shader->setUniform("material.ambientColor", material.ambientColor);
         shader->setUniform("material.diffuseColor", material.diffuseColor);
-        shader->setUniform("material.specularColor", material.specularColor);
-        shader->setUniform("material.emissionColor", material.emissionColor);
+        // shader->setUniform("material.specularColor", material.specularColor);
+        // // shader->setUniform("material.emissionColor", material.emissionColor);
 
-        shader->setUniform("material.shininess", material.shininess);
+        // shader->setUniform("material.shininess", material.shininess);
 
         vgroup.VAO->bind();
         glDrawElements(GL_TRIANGLES, vgroup.indices.size(), GL_UNSIGNED_INT, 0);
