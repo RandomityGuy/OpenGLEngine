@@ -18,6 +18,7 @@ advanced_option_off(GLFW_BUILD_DOCS GLFW_BUILD_EXAMPLES GLFW_BUILD_TESTS GLFW_US
 
 # Libraries
 add_subdirectory(libs/glfw)
+add_subdirectory(libs/tinyobjloader)
 
 add_library(glad libs/glad/src/glad.c)
 
@@ -52,12 +53,16 @@ set(ENGINE_SRC
     src/texture2d.h
     src/camera.cpp
     src/camera.h
+    src/mesh.cpp
+    src/mesh.h
+    src/model.cpp
+    src/model.h
     
     src/stb_image.h
 )
 
 add_executable(engine ${ENGINE_SRC})
-target_link_libraries(engine glfw glad imgui)
+target_link_libraries(engine glfw glad imgui tinyobjloader)
 target_include_directories(engine PRIVATE src)
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/src" FILES ${ENGINE_SRC})
 
@@ -97,6 +102,7 @@ include_directories(
     libs/glm
     libs/glad/include
     libs/imgui
+    libs/tinyobjloader
 )
 
 add_definitions(
