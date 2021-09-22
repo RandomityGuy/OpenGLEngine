@@ -268,7 +268,7 @@ void Mesh::render(Shader* shader)
         shader->setUniform("material.specularColor", material.specularColor);
         shader->setUniform("material.emissionColor", material.emissionColor);
 
-        shader->setUniform("material.shininess", material.shininess);
+        shader->setUniform("material.shininess", 128.0f);
 
         vgroup.VAO->bind();
         glDrawElements(GL_TRIANGLES, vgroup.indices.size(), GL_UNSIGNED_INT, 0);

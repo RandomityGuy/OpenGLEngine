@@ -77,11 +77,11 @@ void main() {
 
     // phase 1: Directional lighting
     vec3 result = CalcDirLight(dirLight, norm, viewDir);
-    // phase 2: Point lights
-    for(int i = 0; i < 4; i++)
-        result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);    
-    // phase 3: Spot light
-    result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
+//    // phase 2: Point lights
+//    for(int i = 0; i < 4; i++)
+//        result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);    
+//    // phase 3: Spot light
+//    result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
 
     vec3 speccolor = (material.hasSpecular ? vec3(texture(material.specular, TexCoords)) : vec3(1)) * material.specularColor;
 
@@ -99,7 +99,7 @@ vec3 CalcDirLight(Light light, vec3 normal, vec3 viewDir) {
     // diffuse shading
     float diff = max(dot(normal, lightDir), 0.0);
     // specular shading
-    vec3 reflectDir = reflect(-lightDir, normal);
+    vec3 reflectDir = normalize(reflect(-lightDir, normal));
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     // combine results
     vec3 ambient = light.ambient * (material.hasAmbient ? vec3(texture(material.ambient, TexCoords)) : vec3(1)) * material.ambientColor;
