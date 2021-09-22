@@ -154,3 +154,16 @@ void Shader::activateTexture(Texture2D& texture, const char* uniformName, int in
 	texture.bind();
 	this->setUniform(uniformName, index);
 }
+
+template<typename T>
+void Shader::setUniform(std::string&& name, T value)
+{
+	this->setUniform<T>(name.c_str(), value);
+}
+
+template void Shader::setUniform<int>(std::string&& name, int value);
+template void Shader::setUniform<float>(std::string&& name, float value);
+template void Shader::setUniform<double>(std::string&& name, double value);
+template void Shader::setUniform<bool>(std::string&& name, bool value);
+template void Shader::setUniform<glm::vec3>(std::string&& name, glm::vec3 value);
+template void Shader::setUniform<glm::mat4>(std::string&& name, glm::mat4 value);

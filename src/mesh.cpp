@@ -76,13 +76,13 @@ void Mesh::load(const char* path)
                 Mesh::Material faceMat;
                 faceMat.name = mat.name;
                 faceMat.ambientColor = glm::vec3(mat.ambient[0], mat.ambient[1], mat.ambient[2]);
-                faceMat.ambientTex = mat.ambient_texname;
+                faceMat.ambientTex = mat.ambient_texname.empty() ? mat.ambient_texname : directory + mat.ambient_texname;
                 faceMat.diffuseColor = glm::vec3(mat.diffuse[0], mat.diffuse[1], mat.diffuse[2]);
-                faceMat.diffuseTex = mat.diffuse_texname;
+                faceMat.diffuseTex = mat.diffuse_texname.empty() ? mat.diffuse_texname : directory + mat.diffuse_texname;
                 faceMat.specularColor = glm::vec3(mat.specular[0], mat.specular[1], mat.specular[2]);
-                faceMat.specularTex = mat.specular_texname;
+                faceMat.specularTex = mat.specular_texname.empty() ? mat.specular_texname : directory + mat.specular_texname;
                 faceMat.emissionColor = glm::vec3(mat.emission[0], mat.emission[1], mat.emission[2]);
-                faceMat.emissionTex = mat.emissive_texname;
+                faceMat.emissionTex = mat.emissive_texname.empty() ? mat.emissive_texname : directory + mat.emissive_texname;
                 faceMat.shininess = mat.shininess;
                 face->materialIndex = this->materials.size();
                 this->materials.push_back(faceMat);
@@ -99,7 +99,7 @@ void Mesh::load(const char* path)
                 float vy = attrib.vertices[3 * size_t(idx.vertex_index) + 1];
                 float vz = attrib.vertices[3 * size_t(idx.vertex_index) + 2];
 
-                glm::vec3 pos(vx, vy, vz);
+                glm::vec3 pos(vx, vz, vy);
                 vert.position = pos;
 
                 // Check if `normal_index` is zero or positive. negative = no normal data
@@ -107,7 +107,7 @@ void Mesh::load(const char* path)
                     float nx = attrib.normals[3 * size_t(idx.normal_index) + 0];
                     float ny = attrib.normals[3 * size_t(idx.normal_index) + 1];
                     float nz = attrib.normals[3 * size_t(idx.normal_index) + 2];
-                    glm::vec3 normal(nx, ny, nz);
+                    glm::vec3 normal(nx, nz, ny);
                     vert.normal = normal;
                 }
 
@@ -141,22 +141,34 @@ void Mesh::loadMaterialTextures()
         if (!material.diffuseTex.empty())
         {
             material.diffuseTexture2D = new Texture2D();
+            material.diffuseTexture2D->setWrap(Texture2D::Wrap::Repeat, Texture2D::Wrap::Repeat);
+            material.diffuseTexture2D->setFiltering(Texture2D::LinearMipMapLinear, Texture2D::Linear);
             material.diffuseTexture2D->load(material.diffuseTex.c_str());
+            material.diffuseTexture2D->generateMipMaps();
         }
         if (!material.ambientTex.empty())
         {
             material.ambientTexture2D = new Texture2D();
+            material.ambientTexture2D->setWrap(Texture2D::Wrap::Repeat, Texture2D::Wrap::Repeat);
+            material.ambientTexture2D->setFiltering(Texture2D::LinearMipMapLinear, Texture2D::Linear);
             material.ambientTexture2D->load(material.ambientTex.c_str());
+            material.ambientTexture2D->generateMipMaps();
         }
         if (!material.specularTex.empty())
         {
             material.specularTexture2D = new Texture2D();
+            material.specularTexture2D->setWrap(Texture2D::Wrap::Repeat, Texture2D::Wrap::Repeat);
+            material.specularTexture2D->setFiltering(Texture2D::LinearMipMapLinear, Texture2D::Linear);
             material.specularTexture2D->load(material.specularTex.c_str());
+            material.specularTexture2D->generateMipMaps();
         }
         if (!material.emissionTex.empty())
         {
             material.emissionTexture2D = new Texture2D();
+            material.emissionTexture2D->setWrap(Texture2D::Wrap::Repeat, Texture2D::Wrap::Repeat);
+            material.emissionTexture2D->setFiltering(Texture2D::LinearMipMapLinear, Texture2D::Linear);
             material.emissionTexture2D->load(material.emissionTex.c_str());
+            material.emissionTexture2D->generateMipMaps();
         }
     }
     _loadedMaterialTextures = true;
@@ -224,6 +236,7 @@ void Mesh::disposeBuffers()
 void Mesh::render(Shader* shader)
 {
     this->generateBuffers();
+    this->loadMaterialTextures();
     // Set the camera and the transform uniforms from the model class, not here
 
     for (auto& vgroup : vertexGroups)
@@ -268,7 +281,7 @@ void Mesh::render(Shader* shader)
         shader->setUniform("material.specularColor", material.specularColor);
         shader->setUniform("material.emissionColor", material.emissionColor);
 
-        shader->setUniform("material.shininess", 128.0f);
+        shader->setUniform("material.shininess", material.shininess);
 
         vgroup.VAO->bind();
         glDrawElements(GL_TRIANGLES, vgroup.indices.size(), GL_UNSIGNED_INT, 0);

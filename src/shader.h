@@ -20,6 +20,10 @@ public:
 	// utility uniform functions
 	template<typename T>
 	void setUniform(const char* name, T value);
+
+	template<typename T>
+	void setUniform(std::string&& name, T value);
+
 	void activateTexture(Texture2D& texture, const char* uniformName, int index);
 
 };

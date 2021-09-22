@@ -13,7 +13,11 @@
 #include <glm/ext/matrix_clip_space.hpp>
 #include <camera.h>
 #include "mesh.h"
+#include "object3d.h"
+#include <examples/viewer/stb_image.h>
 #include "model.h"
+#include "scene.h"
+#include "light.h"
 
 
 int main()
@@ -45,6 +49,8 @@ int main()
         return -1;
     }
 
+    stbi_set_flip_vertically_on_load(true);
+
     Shader* shader = new Shader("shaders/default.vert", "shaders/default.frag");
     shader->compile();
 
@@ -52,13 +58,31 @@ int main()
     lightingShader->compile();
 
 
+    Scene scene;
+
+    glm::vec3 lightPos(1, 1, -1);
+    glm::vec3 diffuseColor = glm::vec3(0.5f, 0.5f, 0.5f);
+    glm::vec3 ambientColor = glm::vec3(0.2f, 0.2f, 0.2f);
+    
+    DirLight dirLight;
+    dirLight.direction = lightPos;
+    dirLight.ambient = ambientColor;
+    dirLight.diffuse = diffuseColor;
+    dirLight.specular = glm::vec3(1, 1, 1);
+
+    scene.addChild(&dirLight);
+
+
     Model model;
     Mesh mesh;
-    mesh.load("data/cube.obj");
+    mesh.load("data/perseverance/perseverance.obj");
     model.mesh = &mesh;
 
-    model.setTransform(glm::mat4(0.05));
+    glm::mat4 tform = glm::mat4(1);
+   
+    model.setTransform(tform);
 
+    scene.addChild(&model);
 
     GL::setDepthTest(true);
 
@@ -69,17 +93,12 @@ int main()
 
     double prevT = glfwGetTime();
 
-    glm::vec3 lightPos(1, 1, 0);
-
     glm::vec3 pointLightPositions[] = {
         glm::vec3(0.7f,  0.2f,  2.0f),
         glm::vec3(2.3f, -3.3f, -4.0f),
         glm::vec3(-4.0f,  2.0f, -12.0f),
         glm::vec3(0.0f,  0.0f, -3.0f)
     };
-
-    glm::vec3 diffuseColor = glm::vec3(0.5f, 0.5f, 0.5f);
-    glm::vec3 ambientColor = glm::vec3(0.2f, 0.2f, 0.2f);
 
     while (!window->shouldClose())
     {
@@ -101,56 +120,7 @@ int main()
         shader->setUniform("projection", camera.projection);
         shader->setUniform("viewPos", camera.position);
 
-        shader->setUniform("dirLight.direction", lightPos);
-        shader->setUniform("dirLight.ambient", ambientColor);
-        shader->setUniform("dirLight.diffuse", diffuseColor); // darken diffuse light a bit
-        shader->setUniform("dirLight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-
-
-        //shader->setUniform("pointLights[0].position", pointLightPositions[0]);
-        //shader->setUniform("pointLights[0].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
-        //shader->setUniform("pointLights[0].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
-        //shader->setUniform("pointLights[0].specular", glm::vec3(1.0f, 1.0f, 1.0f));
-        //shader->setUniform("pointLights[0].constant", 1.0f);
-        //shader->setUniform("pointLights[0].linear", 0.09);
-        //shader->setUniform("pointLights[0].quadratic", 0.032);
-        //// point light 2
-        //shader->setUniform("pointLights[1].position", pointLightPositions[1]);
-        //shader->setUniform("pointLights[1].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
-        //shader->setUniform("pointLights[1].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
-        //shader->setUniform("pointLights[1].specular", glm::vec3(1.0f, 1.0f, 1.0f));
-        //shader->setUniform("pointLights[1].constant", 1.0f);
-        //shader->setUniform("pointLights[1].linear", 0.09);
-        //shader->setUniform("pointLights[1].quadratic", 0.032);
-        //// point light 3
-        //shader->setUniform("pointLights[2].position", pointLightPositions[2]);
-        //shader->setUniform("pointLights[2].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
-        //shader->setUniform("pointLights[2].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
-        //shader->setUniform("pointLights[2].specular", glm::vec3(1.0f, 1.0f, 1.0f));
-        //shader->setUniform("pointLights[2].constant", 1.0f);
-        //shader->setUniform("pointLights[2].linear", 0.09);
-        //shader->setUniform("pointLights[2].quadratic", 0.032);
-        //// point light 4
-        //shader->setUniform("pointLights[3].position", pointLightPositions[3]);
-        //shader->setUniform("pointLights[3].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
-        //shader->setUniform("pointLights[3].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
-        //shader->setUniform("pointLights[3].specular", glm::vec3(1.0f, 1.0f, 1.0f));
-        //shader->setUniform("pointLights[3].constant", 1.0f);
-        //shader->setUniform("pointLights[3].linear", 0.09);
-        //shader->setUniform("pointLights[3].quadratic", 0.032);
-        //// spotLight
-        //shader->setUniform("spotLight.position", camera.position);
-        //shader->setUniform("spotLight.direction", camera.direction);
-        //shader->setUniform("spotLight.ambient", glm::vec3(0.0f, 0.0f, 0.0f));
-        //shader->setUniform("spotLight.diffuse", glm::vec3(1.0f, 1.0f, 1.0f));
-        //shader->setUniform("spotLight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-        //shader->setUniform("spotLight.constant", 1.0f);
-        //shader->setUniform("spotLight.linear", 0.09);
-        //shader->setUniform("spotLight.quadratic", 0.032);
-        //shader->setUniform("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-        //shader->setUniform("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
-
-        model.render(shader);
+        scene.render(shader);
 
         window->swapBuffers();
         glfwPollEvents();

@@ -57,6 +57,12 @@ set(ENGINE_SRC
     src/mesh.h
     src/model.cpp
     src/model.h
+    src/object3d.cpp
+    src/object3d.h
+    src/scene.cpp
+    src/scene.h
+    src/light.cpp
+    src/light.h
     
     src/stb_image.h
 )

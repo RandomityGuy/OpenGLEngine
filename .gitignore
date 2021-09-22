@@ -1,2 +1,5 @@
 .vs
 out
+*.blend
+data/**/*.txt
+data/**/*.glb
