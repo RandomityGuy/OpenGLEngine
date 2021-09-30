@@ -58,7 +58,7 @@ int main()
     lightingShader->compile();
 
 
-    Scene scene;
+    Scene scene = Scene(window);
 
     glm::vec3 lightPos(1, 1, -1);
     glm::vec3 diffuseColor = glm::vec3(0.5f, 0.5f, 0.5f);
@@ -86,19 +86,7 @@ int main()
 
     GL::setDepthTest(true);
 
-    Camera camera = Camera(window, glm::vec3(0, 0, 1), glm::vec3(1, 0, 0));
-    camera.mode = Camera::Normal;
-
-    camera.position = glm::vec3(0, 0, 0);
-
     double prevT = glfwGetTime();
-
-    glm::vec3 pointLightPositions[] = {
-        glm::vec3(0.7f,  0.2f,  2.0f),
-        glm::vec3(2.3f, -3.3f, -4.0f),
-        glm::vec3(-4.0f,  2.0f, -12.0f),
-        glm::vec3(0.0f,  0.0f, -3.0f)
-    };
 
     while (!window->shouldClose())
     {
@@ -108,7 +96,7 @@ int main()
 
         window->processInput();
 
-        camera.update(dt);
+        scene.camera->update(dt);
 
         GL::setClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         GL::clear(GL::ClearTarget::Color | GL::ClearTarget::Depth);
@@ -116,9 +104,8 @@ int main()
         // draw our first triangle
         shader->activate();
 
-        shader->setUniform("view", camera.view);
-        shader->setUniform("projection", camera.projection);
-        shader->setUniform("viewPos", camera.position);
+        RenderState state;
+        state.shader = shader;
 
         scene.render(shader);
 

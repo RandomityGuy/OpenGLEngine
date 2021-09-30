@@ -11,6 +11,7 @@ public:
 	glm::vec3 specular;
 
 	virtual void render(Shader* shader);
+	virtual void prepareRender(RenderState* state);
 };
 
 class PointLight : public Object3D
@@ -24,6 +25,7 @@ public:
 	float quadratic;
 
 	virtual void render(Shader* shader);
+	virtual void prepareRender(RenderState* state);
 };
 
 class SpotLight : public Object3D
@@ -39,4 +41,5 @@ class SpotLight : public Object3D
 	float outerCutOff;
 
 	virtual void render(Shader* shader);
+	virtual void prepareRender(RenderState* state);
 };

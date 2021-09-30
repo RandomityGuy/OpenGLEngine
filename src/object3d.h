@@ -4,7 +4,13 @@
 #include "mesh.h"
 #include "shader.h"
 
+// Render Order Macros
+#define RENDER_ORDER_LIGHTS 1
+#define RENDER_ORDER_OPAQUE 0
+// Transparent shit has negative order
+
 class Scene;
+struct RenderState;
 
 class Object3D
 {
@@ -26,4 +32,5 @@ public:
 	virtual void addChild(Object3D* model);
 	virtual void removeChild(Object3D* model);
 	virtual void render(Shader* shader);
+	virtual void prepareRender(RenderState* state);
 };

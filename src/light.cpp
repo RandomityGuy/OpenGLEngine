@@ -14,6 +14,12 @@ void DirLight::render(Shader* shader)
     shader->setUniform("dirLight.enabled", true);
 }
 
+void DirLight::prepareRender(RenderState* state)
+{
+    RenderNode rnode = RenderNode(RENDER_ORDER_LIGHTS, this);
+    state->renderqueue.push(rnode);
+}
+
 void PointLight::render(Shader* shader)
 {
     this->scene->scenePointLights++;
@@ -37,6 +43,12 @@ void PointLight::render(Shader* shader)
     shader->setUniform(begin + pointLightIndex + "].enabled", true);
 }
 
+void PointLight::prepareRender(RenderState* state)
+{
+    RenderNode rnode = RenderNode(RENDER_ORDER_LIGHTS, this);
+    state->renderqueue.push(rnode);
+}
+
 void SpotLight::render(Shader* shader)
 {
     this->scene->sceneSpotLights++;
@@ -57,5 +69,11 @@ void SpotLight::render(Shader* shader)
     shader->setUniform("spotLight.cutOff", this->cutOff);
     shader->setUniform("spotLight.outerCutOff", this->outerCutOff);
     shader->setUniform("spotLight.enabled", true);
+}
+
+void SpotLight::prepareRender(RenderState* state)
+{
+    RenderNode rnode = RenderNode(RENDER_ORDER_LIGHTS, this);
+    state->renderqueue.push(rnode);
 }
 

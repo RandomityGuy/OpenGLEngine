@@ -47,6 +47,7 @@ public:
 		std::string emissionTex;
 		Texture2D* emissionTexture2D = NULL;
 		float shininess;
+		float alpha = 1;
 	};
 
 	std::vector<VertexGroup> vertexGroups;

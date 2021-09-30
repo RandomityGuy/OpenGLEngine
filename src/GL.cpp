@@ -51,3 +51,39 @@ void GL::setDepthTest(bool enabled)
 		glDisable(GL_DEPTH_TEST);
 	}
 }
+
+void GL::depthWrite(bool write)
+{
+	glDepthMask(write);
+}
+
+void GL::depthFunc(CompareFunc func)
+{
+	glDepthFunc(func);
+}
+
+void GL::setStencilTest(bool enabled)
+{
+	if (enabled) {
+		glEnable(GL_STENCIL_TEST);
+	}
+	else
+	{
+		glDisable(GL_STENCIL_TEST);
+	}
+}
+
+void GL::stencilMask(GLuint mask)
+{
+	glStencilMask(mask);
+}
+
+void GL::stencilFunc(CompareFunc func, int ref, GLuint mask)
+{
+	glStencilFunc(func, ref, mask);
+}
+
+void GL::stencilOp(StencilOp stencilFail, StencilOp depthFail, StencilOp depthPass)
+{
+	glStencilOp(stencilFail, depthFail, depthPass);
+}

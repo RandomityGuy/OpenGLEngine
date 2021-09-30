@@ -1,5 +1,6 @@
 #include "object3d.h"
 #include <glm/vec4.hpp>
+#include "scene.h"
 
 Object3D::Object3D()
 {
@@ -76,8 +77,14 @@ void Object3D::_sync()
 void Object3D::render(Shader* shader)
 {
 	shader->setUniform("model", this->getAbsoluteTransform());
+}
+
+void Object3D::prepareRender(RenderState* state)
+{
+	RenderNode rnode = RenderNode(0, this);
+	state->renderqueue.push(rnode);
 	for (auto& child : children)
 	{
-		child->render(shader);
+		child->prepareRender(state);
 	}
 }
