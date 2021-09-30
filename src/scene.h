@@ -7,10 +7,10 @@
 
 struct RenderNode
 {
-	int priority;
+	float priority;
 	Object3D* obj;
 
-	RenderNode(int priority, Object3D* obj) : priority(priority), obj(obj)
+	RenderNode(float priority, Object3D* obj) : priority(priority), obj(obj)
 	{
 
 	}
@@ -19,7 +19,9 @@ struct RenderNode
 struct CompareRenderOrder {
 	bool operator()(RenderNode const& p1, RenderNode const& p2)
 	{
-		return p1.priority < p2.priority;
+		// Render the positive things according to normal priority (bigger number goes first)
+		// Then the negative numbers are for transparency ordering, where more negative number should be drawn first (since its far)
+		return p1.priority >= 0 && p2.priority >= 0 ? p1.priority < p2.priority : (p1.priority < 0 && p2.priority < 0) ? p1.priority > p2.priority : p1.priority < p2.priority;
 	}
 };
 

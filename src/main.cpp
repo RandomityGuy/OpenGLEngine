@@ -75,7 +75,7 @@ int main()
 
     Model model;
     Mesh mesh;
-    mesh.load("data/perseverance/perseverance.obj");
+    mesh.load("data/cube.obj");
     model.mesh = &mesh;
 
     glm::mat4 tform = glm::mat4(1);
@@ -84,7 +84,28 @@ int main()
 
     scene.addChild(&model);
 
+    Model model2;
+    Mesh mesh2;
+    mesh2.load("data/window.obj");
+    mesh2.materials[0].transparent = true;
+    model2.mesh = &mesh2;
+
+    glm::mat4 tform2 = glm::translate(tform, glm::vec3(0, 5, 0));
+    model2.setTransform(tform2);
+
+    scene.addChild(&model2);
+
+    Model model3;
+    model3.mesh = &mesh2;
+
+    glm::mat4 tform3 = glm::translate(tform, glm::vec3(2, 8, 0));
+    model3.setTransform(tform3);
+
+    scene.addChild(&model3);
+
     GL::setDepthTest(true);
+    GL::setBlending(true);
+    GL::blendFunc(GL::BlendMode::SrcAlpha, GL::BlendMode::OneMinusSrcAlpha, GL::BlendMode::SrcAlpha, GL::BlendMode::OneMinusSrcAlpha);
 
     double prevT = glfwGetTime();
 
@@ -99,7 +120,7 @@ int main()
         scene.camera->update(dt);
 
         GL::setClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        GL::clear(GL::ClearTarget::Color | GL::ClearTarget::Depth);
+        GL::clear((int)GL::ClearTarget::Color | (int)GL::ClearTarget::Depth);
 
         // draw our first triangle
         shader->activate();

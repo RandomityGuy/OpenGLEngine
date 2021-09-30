@@ -13,7 +13,7 @@ void GL::enableVertexAttribArray(int location)
 
 void GL::bindBuffer(GL::BufferTarget target, GLuint buffer)
 {
-	glBindBuffer(target, buffer);
+	glBindBuffer((GLenum)target, buffer);
 }
 
 void GL::bindVertexArray(GLuint arr)
@@ -59,7 +59,7 @@ void GL::depthWrite(bool write)
 
 void GL::depthFunc(CompareFunc func)
 {
-	glDepthFunc(func);
+	glDepthFunc((GLenum)func);
 }
 
 void GL::setStencilTest(bool enabled)
@@ -80,10 +80,31 @@ void GL::stencilMask(GLuint mask)
 
 void GL::stencilFunc(CompareFunc func, int ref, GLuint mask)
 {
-	glStencilFunc(func, ref, mask);
+	glStencilFunc((GLenum)func, ref, mask);
 }
 
 void GL::stencilOp(StencilOp stencilFail, StencilOp depthFail, StencilOp depthPass)
 {
-	glStencilOp(stencilFail, depthFail, depthPass);
+	glStencilOp((GLenum)stencilFail, (GLenum)depthFail, (GLenum)depthPass);
+}
+
+void GL::setBlending(bool enabled)
+{
+	if (enabled) {
+		glEnable(GL_BLEND);
+	}
+	else
+	{
+		glDisable(GL_BLEND);
+	}
+}
+
+void GL::blendFunc(BlendMode src, BlendMode dst, BlendMode srcalpha, BlendMode dstalpha)
+{
+	glBlendFuncSeparate((GLenum)src, (GLenum)dst, (GLenum)srcalpha, (GLenum)dstalpha);
+}
+
+void GL::blendEquation(BlendEquation eq)
+{
+	glBlendEquation((GLenum)eq);
 }

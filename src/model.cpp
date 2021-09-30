@@ -10,11 +10,11 @@ void Model::render(Shader* shader)
 
 void Model::prepareRender(RenderState* state)
 {
-	int renderOrder = RENDER_ORDER_OPAQUE;
+	float renderOrder = RENDER_ORDER_OPAQUE;
 	bool isTransparent = false;
 	for (auto& mat : this->mesh->materials)
 	{
-		if (mat.alpha != 1)
+		if (mat.alpha != 1 || mat.transparent)
 		{
 			isTransparent = true;
 			break;

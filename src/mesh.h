@@ -48,6 +48,7 @@ public:
 		Texture2D* emissionTexture2D = NULL;
 		float shininess;
 		float alpha = 1;
+		bool transparent = false;
 	};
 
 	std::vector<VertexGroup> vertexGroups;

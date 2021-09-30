@@ -4,7 +4,7 @@
 class GL
 {
 public:
-	enum BufferTarget
+	enum class BufferTarget
 	{
 		ArrayBuffer = GL_ARRAY_BUFFER, // 	Vertex attributes
 		AtomicCounterBuffer = GL_ATOMIC_COUNTER_BUFFER, // Atomic counter storage
@@ -22,14 +22,14 @@ public:
 		UniformBuffer = GL_UNIFORM_BUFFER // Uniform block storage
 	};
 
-	enum ClearTarget
+	enum class ClearTarget
 	{
 		Color = GL_COLOR_BUFFER_BIT,
 		Depth = GL_DEPTH_BUFFER_BIT,
 		Stencil = GL_STENCIL_BUFFER_BIT
 	};
 
-	enum CompareFunc
+	enum class CompareFunc
 	{
 		Always = GL_ALWAYS, //	The depth test always passes.
 		Never = GL_NEVER,	// The depth test never passes.
@@ -42,7 +42,7 @@ public:
 
 	};
 
-	enum StencilOp
+	enum class StencilOp
 	{
 		Keep = GL_KEEP,	// The currently stored stencil value is kept.
 		Zero = GL_ZERO,	// The stencil value is set to 0.
@@ -54,19 +54,57 @@ public:
 		Invert = GL_INVERT,	// Bitwise inverts the current stencil buffer value.
 	};
 
+	enum class BlendMode
+	{
+		Zero = GL_ZERO, // Factor is equal to 0.
+		One = GL_ONE, //  Factor is equal to 1.
+		Src = GL_SRC_COLOR, //	Factor is equal to the source color vector C_source.
+		OneMinusSrc = GL_ONE_MINUS_SRC_COLOR, // Factor is equal to 1 minus the source color vector : 1 - C_source.
+		Dst = GL_DST_COLOR, // Factor is equal to the destination color vector C_destination
+		OneMinusDst = GL_ONE_MINUS_DST_COLOR, // Factor is equal to 1 minus the destination color vector : 1 - C_destination.
+		SrcAlpha = GL_SRC_ALPHA, // Factor is equal to the alpha component of the source color vector C_source.
+		OneMinusSrcAlpha = GL_ONE_MINUS_SRC_ALPHA, // Factor is equal to 1 - alpha of the source color vector C_source.
+		DstAlpha = GL_DST_ALPHA, // Factor is equal to the alpha component of the destination color vector C_destination.
+		OneMinusDstAlpha = GL_ONE_MINUS_DST_ALPHA, // Factor is equal to 1 - alpha of the destination color vector C_destination.
+		Constant = GL_CONSTANT_COLOR, // Factor is equal to the constant color vector C_constant.
+		OneMinusConstant = GL_ONE_MINUS_CONSTANT_COLOR, // Factor is equal to 1 - the constant color vector C_constant.
+		ConstantAlpha = GL_CONSTANT_ALPHA, // Factor is equal to the alpha component of the constant color vector C_constant.
+		OneMinusConstantAlpha = GL_ONE_MINUS_CONSTANT_ALPHA, // Factor is equal to 1 - alpha of the constant color vector C_constant.
+	};
+
+	enum class BlendEquation
+	{
+		Add = GL_FUNC_ADD, // C = Src + Dst
+		Subtract = GL_FUNC_SUBTRACT, // C = Src - Dst
+		ReverseSubtract = GL_FUNC_REVERSE_SUBTRACT, // C = Dst - Src
+		Min = GL_MIN, // C = min(Src, Dst)
+		Max = GL_MAX, // C = max(Src, Dst)
+	};
+
 	static void vertexAttribPointer(int location, int size, int type, int stride, int offset, bool normalize);
 	static void enableVertexAttribArray(int location);
 	static void bindBuffer(BufferTarget target, GLuint buffer);
 	static void bindVertexArray(GLuint arr);
+
+	// Clearing
 	static void setClearColor(float r, float g, float b, float a);
 	static void setClearDepth(double depth);
 	static void setClearStencil(int s);
 	static void clear(int target);
+
+	// Depth testing
 	static void setDepthTest(bool enabled);
 	static void depthWrite(bool write);
 	static void depthFunc(CompareFunc func);
+
+	// Stencil testing
 	static void setStencilTest(bool enabled);
 	static void stencilMask(GLuint mask);
 	static void stencilFunc(CompareFunc func, int ref, GLuint mask);
 	static void stencilOp(StencilOp stencilFail, StencilOp depthFail, StencilOp depthPass);
+
+	// Blending
+	static void setBlending(bool enabled);
+	static void blendFunc(BlendMode src, BlendMode dst, BlendMode srcalpha, BlendMode dstalpha);
+	static void blendEquation(BlendEquation eq);
 };
