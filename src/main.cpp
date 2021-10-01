@@ -18,6 +18,7 @@
 #include "model.h"
 #include "scene.h"
 #include "light.h"
+#include "renderer.h"
 
 
 int main()
@@ -51,14 +52,7 @@ int main()
 
     stbi_set_flip_vertically_on_load(true);
 
-    Shader* shader = new Shader("shaders/default.vert", "shaders/default.frag");
-    shader->compile();
-
-    Shader* lightingShader = new Shader("shaders/default.vert", "shaders/light.frag");
-    lightingShader->compile();
-
-
-    Scene scene = Scene(window);
+    Renderer renderer(window);
 
     glm::vec3 lightPos(1, 1, -1);
     glm::vec3 diffuseColor = glm::vec3(0.5f, 0.5f, 0.5f);
@@ -70,7 +64,7 @@ int main()
     dirLight.diffuse = diffuseColor;
     dirLight.specular = glm::vec3(1, 1, 1);
 
-    scene.addChild(&dirLight);
+    renderer.scene->addChild(&dirLight);
 
 
     Model model;
@@ -82,7 +76,7 @@ int main()
    
     model.setTransform(tform);
 
-    scene.addChild(&model);
+    renderer.scene->addChild(&model);
 
     Model model2;
     Mesh mesh2;
@@ -93,7 +87,7 @@ int main()
     glm::mat4 tform2 = glm::translate(tform, glm::vec3(0, 5, 0));
     model2.setTransform(tform2);
 
-    scene.addChild(&model2);
+    renderer.scene->addChild(&model2);
 
     Model model3;
     model3.mesh = &mesh2;
@@ -101,7 +95,7 @@ int main()
     glm::mat4 tform3 = glm::translate(tform, glm::vec3(2, 8, 0));
     model3.setTransform(tform3);
 
-    scene.addChild(&model3);
+    renderer.scene->addChild(&model3);
 
     GL::setDepthTest(true);
     GL::setBlending(true);
@@ -117,24 +111,12 @@ int main()
 
         window->processInput();
 
-        scene.camera->update(dt);
-
-        GL::setClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        GL::clear((int)GL::ClearTarget::Color | (int)GL::ClearTarget::Depth);
-
-        // draw our first triangle
-        shader->activate();
-
-        RenderState state;
-        state.shader = shader;
-
-        scene.render(shader);
+        renderer.scene->camera->update(dt);
+        renderer.render();
 
         window->swapBuffers();
         glfwPollEvents();
     }
-
-    delete shader;
 
     glfwTerminate();
 

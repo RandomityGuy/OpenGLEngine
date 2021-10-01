@@ -7,6 +7,8 @@
 #include <indexBuffer.h>
 #include <vertexArray.h>
 
+struct RenderContext;
+
 class Mesh
 {
 	bool _loadedMaterialTextures = false;
@@ -62,5 +64,5 @@ public:
 	void disposeMaterialTextures();
 	void generateBuffers();
 	void disposeBuffers();
-	void render(Shader* shader);
+	void render(RenderContext* context);
 };

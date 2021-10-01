@@ -1,6 +1,7 @@
 #include "object3d.h"
 #include <glm/vec4.hpp>
 #include "scene.h"
+#include "pass.h"
 
 Object3D::Object3D()
 {
@@ -74,9 +75,9 @@ void Object3D::_sync()
 	}
 }
 
-void Object3D::render(Shader* shader)
+void Object3D::render(RenderContext* context)
 {
-	shader->setUniform("model", this->getAbsoluteTransform());
+	context->currentPass->shader->setUniform("model", this->getAbsoluteTransform());
 }
 
 void Object3D::prepareRender(RenderState* state)

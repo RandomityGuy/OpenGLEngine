@@ -38,30 +38,5 @@ void Scene::prepareRender(RenderState* state)
 
 void Scene::render(Shader* shader)
 {
-	sceneRenderState.shader = shader;
-	sceneRenderState.renderqueue = std::priority_queue<RenderNode, std::vector<RenderNode>, CompareRenderOrder>();
 
-	this->prepareRender(&sceneRenderState);
-
-	sceneDirLights = 0;
-	scenePointLights = 0;
-	sceneSpotLights = 0;
-
-	shader->setUniform("view", camera->view);
-	shader->setUniform("projection", camera->projection);
-	shader->setUniform("viewPos", camera->position);
-
-	shader->setUniform("dirLight.enabled", false);
-	shader->setUniform("pointLights[0].enabled", false);
-	shader->setUniform("pointLights[1].enabled", false);
-	shader->setUniform("pointLights[2].enabled", false);
-	shader->setUniform("pointLights[3].enabled", false);
-	shader->setUniform("spotLight.enabled", false);
-
-	while (!sceneRenderState.renderqueue.empty())
-	{
-		RenderNode next = sceneRenderState.renderqueue.top();
-		next.obj->render(shader);
-		sceneRenderState.renderqueue.pop();
-	}
 }

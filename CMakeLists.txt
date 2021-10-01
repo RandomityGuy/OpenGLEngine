@@ -63,6 +63,17 @@ set(ENGINE_SRC
     src/scene.h
     src/light.cpp
     src/light.h
+    src/frameBuffer.cpp
+    src/frameBuffer.h
+    src/renderBuffer.cpp
+    src/renderBuffer.h
+    src/pass.cpp
+    src/pass.h
+    src/renderContext.h
+    src/renderer.cpp
+    src/renderer.h
+    src/defaultPass.cpp
+    src/defaultPass.h
     
     src/stb_image.h
 )

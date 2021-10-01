@@ -1,11 +1,11 @@
 #include "model.h"
 #include "scene.h"
 
-void Model::render(Shader* shader)
+void Model::render(RenderContext* context)
 {
-	shader->setUniform("model", this->getAbsoluteTransform());
+	context->currentPass->shader->setUniform("model", this->getAbsoluteTransform());
 	if (this->mesh != NULL)
-		this->mesh->render(shader);
+		this->mesh->render(context);
 }
 
 void Model::prepareRender(RenderState* state)

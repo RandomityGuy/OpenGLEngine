@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include "mesh.h"
 #include "shader.h"
+#include "renderContext.h"
 
 // Render Order Macros
 #define RENDER_ORDER_LIGHTS 1
@@ -31,6 +32,6 @@ public:
 	glm::mat4 getAbsoluteTransform();
 	virtual void addChild(Object3D* model);
 	virtual void removeChild(Object3D* model);
-	virtual void render(Shader* shader);
+	virtual void render(RenderContext* context);
 	virtual void prepareRender(RenderState* state);
 };

@@ -35,6 +35,12 @@ void Texture2D::load(const char* path)
 	stbi_image_free(data);
 }
 
+void Texture2D::create(GLint internalFormat, int width, int height, GLenum format, GLenum type)
+{
+	this->bind();
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, type, 0);
+}
+
 void Texture2D::setWrap(Wrap sWrap, Wrap tWrap)
 {
 	this->bind();

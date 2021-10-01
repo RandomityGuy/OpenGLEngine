@@ -2,10 +2,12 @@
 #include <glad/glad.h>
 
 class Shader;
+class FrameBuffer;
 
 class Texture2D
 {
 	friend class Shader;
+	friend class FrameBuffer;
 	GLuint id;
 
 public:
@@ -35,6 +37,7 @@ public:
 	};
 
 	void load(const char* path);
+	void create(GLint internalFormat, int width, int height, GLenum format, GLenum type);
 	void bind();
 	void setWrap(Wrap sWrap, Wrap tWrap);
 	void setBorderColor(float* rgba);

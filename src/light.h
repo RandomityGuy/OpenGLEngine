@@ -10,7 +10,7 @@ public:
 	glm::vec3 ambient;
 	glm::vec3 specular;
 
-	virtual void render(Shader* shader);
+	virtual void render(RenderContext* context);
 	virtual void prepareRender(RenderState* state);
 };
 
@@ -24,7 +24,7 @@ public:
 	float linear;
 	float quadratic;
 
-	virtual void render(Shader* shader);
+	virtual void render(RenderContext* context);
 	virtual void prepareRender(RenderState* state);
 };
 
@@ -40,6 +40,6 @@ class SpotLight : public Object3D
 	float cutOff;
 	float outerCutOff;
 
-	virtual void render(Shader* shader);
+	virtual void render(RenderContext* context);
 	virtual void prepareRender(RenderState* state);
 };

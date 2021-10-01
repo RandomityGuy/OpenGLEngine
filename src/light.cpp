@@ -1,8 +1,10 @@
 #include "light.h"
 #include "scene.h"
+#include "pass.h"
 
-void DirLight::render(Shader* shader)
+void DirLight::render(RenderContext* context)
 {
+    Shader* shader = context->currentPass->shader;
     this->scene->sceneDirLights++;
     if (this->scene->maxDirLights < this->scene->sceneDirLights)
         throw new std::exception("DirLight count exceeded");
@@ -20,8 +22,9 @@ void DirLight::prepareRender(RenderState* state)
     state->renderqueue.push(rnode);
 }
 
-void PointLight::render(Shader* shader)
+void PointLight::render(RenderContext* context)
 {
+    Shader* shader = context->currentPass->shader;
     this->scene->scenePointLights++;
     if (this->scene->maxPointLights < this->scene->scenePointLights)
         throw new std::exception("PointLight count exceeded");
@@ -49,8 +52,9 @@ void PointLight::prepareRender(RenderState* state)
     state->renderqueue.push(rnode);
 }
 
-void SpotLight::render(Shader* shader)
+void SpotLight::render(RenderContext* context)
 {
+    Shader* shader = context->currentPass->shader;
     this->scene->sceneSpotLights++;
     if (this->scene->maxSpotLights < this->scene->sceneSpotLights)
         throw new std::exception("SpotLight count exceeded");

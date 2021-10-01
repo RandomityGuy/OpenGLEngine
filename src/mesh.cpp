@@ -4,6 +4,8 @@
 #include <string>
 #include <GL.h>
 #include "shader.h"
+#include "renderContext.h"
+#include "pass.h"
 
 Mesh::Mesh()
 {
@@ -233,8 +235,9 @@ void Mesh::disposeBuffers()
     this->_generatedBuffers = false;
 }
 
-void Mesh::render(Shader* shader)
+void Mesh::render(RenderContext* context)
 {
+    Shader* shader = context->currentPass->shader;
     this->generateBuffers();
     this->loadMaterialTextures();
     // Set the camera and the transform uniforms from the model class, not here
