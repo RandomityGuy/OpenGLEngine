@@ -108,3 +108,24 @@ void GL::blendEquation(BlendEquation eq)
 {
 	glBlendEquation((GLenum)eq);
 }
+
+void GL::setCulling(bool enabled)
+{
+	if (enabled) {
+		glEnable(GL_CULL_FACE);
+	}
+	else
+	{
+		glDisable(GL_CULL_FACE);
+	}
+}
+
+void GL::cullFace(CullFace face)
+{
+	glCullFace((GLenum)face);
+}
+
+void GL::frontFace(WindingOrder order)
+{
+	glFrontFace((GLenum)order);
+}

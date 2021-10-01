@@ -81,6 +81,19 @@ public:
 		Max = GL_MAX, // C = max(Src, Dst)
 	};
 
+	enum class CullFace
+	{
+		Front = GL_FRONT, // Front face
+		Back = GL_BACK, // Back face
+		Both = GL_FRONT_AND_BACK, // Both faces
+	};
+
+	enum class WindingOrder
+	{
+		Clockwise = GL_CW,
+		CounterClockwise = GL_CCW
+	};
+
 	static void vertexAttribPointer(int location, int size, int type, int stride, int offset, bool normalize);
 	static void enableVertexAttribArray(int location);
 	static void bindBuffer(BufferTarget target, GLuint buffer);
@@ -107,4 +120,9 @@ public:
 	static void setBlending(bool enabled);
 	static void blendFunc(BlendMode src, BlendMode dst, BlendMode srcalpha, BlendMode dstalpha);
 	static void blendEquation(BlendEquation eq);
+
+	// Culling
+	static void setCulling(bool enabled);
+	static void cullFace(CullFace face);
+	static void frontFace(WindingOrder order);
 };
