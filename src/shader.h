@@ -12,6 +12,24 @@ class Shader
 public:
 	Shader(std::string vertPath, std::string fragPath);
 	~Shader();
+	Shader(const Shader&) = delete;
+	Shader& operator=(const Shader&) = delete;
+
+	Shader(Shader&& other) : programId(other.programId)
+	{
+		other.programId = 0; //Use the "null" texture for the old object.
+	}
+
+	Shader& operator=(Shader&& other)
+	{
+		//ALWAYS check for self-assignment.
+		if (this != &other)
+		{
+			this->~Shader();
+			//obj_ is now 0.
+			std::swap(programId, other.programId);
+		}
+	}
 
 	void compile();
 	void activate();

@@ -1,5 +1,6 @@
 #pragma once
 #include <glad/glad.h>
+#include <vector>
 
 class Shader;
 class FrameBuffer;
@@ -13,6 +14,24 @@ class Texture2D
 public:
 	Texture2D();
 	~Texture2D();
+	Texture2D(const Texture2D&) = delete;
+	Texture2D& operator=(const Texture2D&) = delete;
+
+	Texture2D(Texture2D&& other) : id(other.id)
+	{
+		other.id = 0; //Use the "null" texture for the old object.
+	}
+
+	Texture2D& operator=(Texture2D&& other)
+	{
+		//ALWAYS check for self-assignment.
+		if (this != &other)
+		{
+			this->~Texture2D();
+			//obj_ is now 0.
+			std::swap(id, other.id);
+		}
+	}
 
 	int width;
 	int height;

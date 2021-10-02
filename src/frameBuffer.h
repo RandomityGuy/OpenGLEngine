@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <texture2d.h>
 #include <renderBuffer.h>
+#include <vector>
 
 class FrameBuffer
 {
@@ -10,6 +11,24 @@ public:
 
 	FrameBuffer();
 	~FrameBuffer();
+	FrameBuffer(const FrameBuffer&) = delete;
+	FrameBuffer& operator=(const FrameBuffer&) = delete;
+
+	FrameBuffer(FrameBuffer&& other) : id(other.id)
+	{
+		other.id = 0; //Use the "null" texture for the old object.
+	}
+
+	FrameBuffer& operator=(FrameBuffer&& other)
+	{
+		//ALWAYS check for self-assignment.
+		if (this != &other)
+		{
+			glDeleteFramebuffers(1, &this->id);
+			//obj_ is now 0.
+			std::swap(id, other.id);
+		}
+	}
 
 	enum AttachmentType
 	{
