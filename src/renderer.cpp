@@ -44,6 +44,8 @@ void Renderer::render()
 
 		pass.second->apply(&context);
 
+		this->scene->camera->render(&context);
+
 		while (!currentQueue.empty())
 		{
 			RenderNode next = currentQueue.top();

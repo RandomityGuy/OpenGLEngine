@@ -19,6 +19,7 @@
 #include "scene.h"
 #include "light.h"
 #include "renderer.h"
+#include "skybox.h"
 
 
 int main()
@@ -54,7 +55,7 @@ int main()
 
     Renderer renderer(window);
 
-    glm::vec3 lightPos(1, 1, -1);
+    glm::vec3 lightPos(-1, -1, -1);
     glm::vec3 diffuseColor = glm::vec3(0.5f, 0.5f, 0.5f);
     glm::vec3 ambientColor = glm::vec3(0.2f, 0.2f, 0.2f);
     
@@ -96,6 +97,23 @@ int main()
     model3.setTransform(tform3);
 
     renderer.scene->addChild(&model3);
+
+    std::vector<std::string> faces
+    {
+        "data/skybox/right.jpg",
+        "data/skybox/left.jpg",
+        "data/skybox/front.jpg",
+        "data/skybox/back.jpg",
+        "data/skybox/top.jpg",
+        "data/skybox/bottom.jpg"
+    };
+
+    CubeMap cubemap;
+    cubemap.load(faces);
+
+    Skybox skybox;
+    skybox.cubemap = &cubemap;
+    renderer.scene->addChild(&skybox);
 
     double prevT = glfwGetTime();
 

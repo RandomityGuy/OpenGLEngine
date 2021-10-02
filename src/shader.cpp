@@ -155,6 +155,13 @@ void Shader::activateTexture(Texture2D& texture, const char* uniformName, int in
 	this->setUniform(uniformName, index);
 }
 
+void Shader::activateCubemap(CubeMap& texture, const char* uniformName, int index)
+{
+	glActiveTexture(GL_TEXTURE0 + index);
+	texture.bind();
+	this->setUniform(uniformName, index);
+}
+
 template<typename T>
 void Shader::setUniform(std::string&& name, T value)
 {

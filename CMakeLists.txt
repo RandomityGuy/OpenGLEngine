@@ -76,6 +76,10 @@ set(ENGINE_SRC
     src/defaultPass.h
     src/postFXPass.cpp
     src/postFXPass.h
+    src/cubeMap.cpp
+    src/cubeMap.h
+    src/skybox.cpp
+    src/skybox.h
     
     src/stb_image.h
 )

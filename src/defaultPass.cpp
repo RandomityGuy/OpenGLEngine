@@ -41,10 +41,6 @@ void DefaultPass::apply(RenderContext* context)
 
 	this->shader->activate();
 
-	this->shader->setUniform("view", context->camera->view);
-	this->shader->setUniform("projection", context->camera->projection);
-	this->shader->setUniform("viewPos", context->camera->position);
-
 	this->shader->setUniform("dirLight.enabled", false);
 	this->shader->setUniform("pointLights[0].enabled", false);
 	this->shader->setUniform("pointLights[1].enabled", false);

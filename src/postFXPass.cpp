@@ -38,6 +38,7 @@ PostFXPass::PostFXPass()
 	GL::vertexAttribPointer(0, 2, GL_FLOAT, 4 * sizeof(float), 0, false);
 	GL::enableVertexAttribArray(1);
 	GL::vertexAttribPointer(1, 2, GL_FLOAT, 4 * sizeof(float), 2 * sizeof(float), false);
+	GL::bindVertexArray(0);
 }
 
 PostFXPass::~PostFXPass()

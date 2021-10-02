@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "texture2d.h"
+#include "cubeMap.h"
 #include <glad/glad.h>
 
 class Shader
@@ -43,5 +44,6 @@ public:
 	void setUniform(std::string&& name, T value);
 
 	void activateTexture(Texture2D& texture, const char* uniformName, int index);
+	void activateCubemap(CubeMap& texture, const char* uniformName, int index);
 
 };

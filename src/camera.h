@@ -2,6 +2,8 @@
 #include <glm/glm.hpp>
 #include "window.h"
 
+struct RenderContext;
+
 class Camera
 {
 public:
@@ -52,6 +54,8 @@ public:
 	void orbit(float dt);
 	void zoom(float dt);
 	void move(float dt, Move move);
+
+	void render(RenderContext* context);
 
 private:
 	int centerX;

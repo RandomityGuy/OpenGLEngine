@@ -6,6 +6,7 @@
 #include "renderContext.h"
 
 // Render Order Macros
+#define RENDER_ORDER_SKY -9999
 #define RENDER_ORDER_LIGHTS 1
 #define RENDER_ORDER_OPAQUE 0
 // Transparent shit has negative order

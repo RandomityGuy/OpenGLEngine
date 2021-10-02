@@ -5,6 +5,7 @@
 #include <glm/gtx/projection.hpp>
 #include <glm/ext/quaternion_trigonometric.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include "renderContext.h"
 
 #define PI 3.14159265
 
@@ -202,4 +203,11 @@ void Camera::move(float dt, Move move)
 
 	this->lookAtPoint += sideways;
 	this->position += sideways;
+}
+
+void Camera::render(RenderContext* context)
+{
+	context->currentPass->shader->setUniform("view", context->camera->view);
+	context->currentPass->shader->setUniform("projection", context->camera->projection);
+	context->currentPass->shader->setUniform("viewPos", context->camera->position);
 }
