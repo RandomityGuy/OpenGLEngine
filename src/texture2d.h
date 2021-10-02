@@ -43,4 +43,5 @@ public:
 	void setBorderColor(float* rgba);
 	void setFiltering(Filtering minFilter, Filtering magFilter);
 	void generateMipMaps();
+	void setMipMapLevel(int min, int max);
 };

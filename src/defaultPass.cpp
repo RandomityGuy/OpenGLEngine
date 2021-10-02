@@ -10,11 +10,15 @@ DefaultPass::DefaultPass()
 
 	this->colorBuffer = new Texture2D();
 	this->colorBuffer->create(GL_RGBA, 800, 600, GL_RGBA, GL_UNSIGNED_BYTE);
+	this->colorBuffer->setFiltering(Texture2D::Linear, Texture2D::Linear);
+	this->colorBuffer->generateMipMaps();
 
 	this->renderBuffer = new RenderBuffer(GL_DEPTH_STENCIL, 800, 600);
 	this->frameBuffer = new FrameBuffer();
 	this->frameBuffer->attachColor(*this->colorBuffer, 0);
 	this->frameBuffer->attach(FrameBuffer::DepthStencil, *this->renderBuffer);
+
+	this->frameBuffer->test();
 }
 
 DefaultPass::~DefaultPass()
@@ -29,6 +33,9 @@ void DefaultPass::apply(RenderContext* context)
 {
 	this->frameBuffer->activate();
 
+	GL::setDepthTest(true);
+	GL::setBlending(true);
+	GL::blendFunc(GL::BlendMode::SrcAlpha, GL::BlendMode::OneMinusSrcAlpha, GL::BlendMode::SrcAlpha, GL::BlendMode::OneMinusSrcAlpha);
 	GL::setClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	GL::clear((int)GL::ClearTarget::Color | (int)GL::ClearTarget::Depth | (int) GL::ClearTarget::Stencil);
 

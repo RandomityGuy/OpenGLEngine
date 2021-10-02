@@ -74,6 +74,8 @@ set(ENGINE_SRC
     src/renderer.h
     src/defaultPass.cpp
     src/defaultPass.h
+    src/postFXPass.cpp
+    src/postFXPass.h
     
     src/stb_image.h
 )

@@ -97,10 +97,6 @@ int main()
 
     renderer.scene->addChild(&model3);
 
-    GL::setDepthTest(true);
-    GL::setBlending(true);
-    GL::blendFunc(GL::BlendMode::SrcAlpha, GL::BlendMode::OneMinusSrcAlpha, GL::BlendMode::SrcAlpha, GL::BlendMode::OneMinusSrcAlpha);
-
     double prevT = glfwGetTime();
 
     while (!window->shouldClose())

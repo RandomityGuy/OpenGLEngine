@@ -1,17 +1,24 @@
 #include "renderer.h"
 #include "defaultPass.h"
+#include "postFXPass.h"
 
 Renderer::Renderer(Window* window) : window(window)
 {
 	this->scene = new Scene(window);
 	DefaultPass* defpass = new DefaultPass();
-	this->passes.push_back(defpass);
+	this->passes.insert(std::make_pair(defpass->name,defpass));
+
+	PostFXPass* postFX = new PostFXPass();
+	this->postFXPasses.insert(std::make_pair(postFX->name, postFX));
 }
 
 Renderer::~Renderer()
 {
 	for (auto& pass : passes)
-		delete pass;
+		delete pass.second;
+
+	for (auto& pass : postFXPasses)
+		delete pass.second;
 
 	delete scene;
 }
@@ -31,11 +38,11 @@ void Renderer::render()
 		std::priority_queue<RenderNode, std::vector<RenderNode>, CompareRenderOrder> currentQueue = sceneRenderState.renderqueue;
 
 		RenderContext context;
-		context.currentPass = pass;
+		context.currentPass = pass.second;
 		context.passList = this->passes;
 		context.camera = this->scene->camera;
 
-		pass->apply(&context);
+		pass.second->apply(&context);
 
 		while (!currentQueue.empty())
 		{
@@ -43,6 +50,18 @@ void Renderer::render()
 			next.obj->render(&context);
 			currentQueue.pop();
 		}
+	}
+
+	for (auto& pass : this->postFXPasses)
+	{
+		std::priority_queue<RenderNode, std::vector<RenderNode>, CompareRenderOrder> currentQueue = sceneRenderState.renderqueue;
+
+		RenderContext context;
+		context.currentPass = pass.second;
+		context.passList = this->passes;
+		context.camera = this->scene->camera;
+
+		pass.second->apply(&context);
 	}
 
 	GLint currentFBO = 0;

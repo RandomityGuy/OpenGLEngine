@@ -21,4 +21,5 @@ public:
 	void attachColor(Texture2D& tex, int index);
 	void attach(AttachmentType type, Texture2D& tex);
 	void attach(AttachmentType type, RenderBuffer& buffer);
+	void test();
 };

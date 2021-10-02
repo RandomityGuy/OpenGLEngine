@@ -1,4 +1,5 @@
 #include "frameBuffer.h"
+#include <exception>
 
 FrameBuffer::FrameBuffer()
 {
@@ -33,5 +34,15 @@ void FrameBuffer::attach(AttachmentType type, RenderBuffer& buffer)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, this->id);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, (GLenum)type, GL_RENDERBUFFER, buffer.id);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void FrameBuffer::test()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, this->id);
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		throw new std::exception("Framebuffer incomplete!");
+	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

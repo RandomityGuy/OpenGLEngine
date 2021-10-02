@@ -19,6 +19,7 @@ void Texture2D::bind()
 
 void Texture2D::load(const char* path)
 {
+	this->bind();
 	unsigned char* data = stbi_load(path, &width, &height, &numChannels, 0);
 
 	GLenum format;
@@ -39,6 +40,7 @@ void Texture2D::create(GLint internalFormat, int width, int height, GLenum forma
 {
 	this->bind();
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, type, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Texture2D::setWrap(Wrap sWrap, Wrap tWrap)
@@ -46,12 +48,14 @@ void Texture2D::setWrap(Wrap sWrap, Wrap tWrap)
 	this->bind();
 	glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, sWrap);
 	glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, tWrap);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Texture2D::setBorderColor(float* rgba)
 {
 	this->bind();
 	glTextureParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, rgba);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Texture2D::setFiltering(Filtering minFilter, Filtering magFilter)
@@ -59,10 +63,20 @@ void Texture2D::setFiltering(Filtering minFilter, Filtering magFilter)
 	this->bind();
 	glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
 	glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Texture2D::generateMipMaps()
 {
 	this->bind();
 	glGenerateMipmap(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Texture2D::setMipMapLevel(int min, int max)
+{
+	this->bind();
+	glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, min);
+	glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, max);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
