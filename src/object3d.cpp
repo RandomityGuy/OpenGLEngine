@@ -40,14 +40,14 @@ glm::mat4 Object3D::getAbsoluteTransform()
 	return this->absTransform;
 }
 
-void Object3D::addChild(Object3D* model)
+void Object3D::addChild(Object3D& model)
 {
-	if (model->parent == NULL)
+	if (model.parent == NULL)
 	{
-		this->children.push_back(model);
-		model->parent = this;
-		model->scene = this->scene;
-		model->_sync();
+		this->children.push_back(&model);
+		model.parent = this;
+		model.scene = this->scene;
+		model._sync();
 	}
 	else
 	{
@@ -55,16 +55,16 @@ void Object3D::addChild(Object3D* model)
 	}
 }
 
-void Object3D::removeChild(Object3D* model)
+void Object3D::removeChild(Object3D& model)
 {
-	if (model->parent == this)
+	if (model.parent == this)
 	{
-		auto& it = std::find(this->children.begin(), this->children.end(), model);
+		auto& it = std::find(this->children.begin(), this->children.end(), &model);
 		if (it != this->children.end())
 		{
 			this->children.erase(it);
-			model->parent = NULL;
-			model->_sync();
+			model.parent = NULL;
+			model._sync();
 		}
 	}
 }

@@ -7,4 +7,5 @@ public:
 	Mesh* mesh;
 	virtual void render(RenderContext* context);
 	virtual void prepareRender(RenderState* state);
+	void setMesh(Mesh& mesh);
 };

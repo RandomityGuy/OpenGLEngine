@@ -24,7 +24,7 @@ Scene::Scene(Window* window)
 	this->skybox = new Skybox();
 	skybox->cubemap = new CubeMap();
 	skybox->cubemap->load(faces);
-	addChild(this->skybox);
+	addChild(*this->skybox);
 }
 
 Scene::~Scene()
@@ -34,15 +34,15 @@ Scene::~Scene()
 	delete this->skybox;
 }
 
-void Scene::addChild(Object3D* model)
+void Scene::addChild(Object3D& model)
 {
-	model->scene = this;
+	model.scene = this;
 	Object3D::addChild(model);
 }
 
-void Scene::removeChild(Object3D* model)
+void Scene::removeChild(Object3D& model)
 {
-	model->scene = NULL;
+	model.scene = NULL;
 	Object3D::removeChild(model);
 }
 

@@ -53,7 +53,7 @@ public:
 	Skybox* skybox;
 
 	virtual void prepareRender(RenderState* state);
-	virtual void addChild(Object3D* model);
-	virtual void removeChild(Object3D* model);
+	virtual void addChild(Object3D& model);
+	virtual void removeChild(Object3D& model);
 	virtual void render(Shader* state);
 };

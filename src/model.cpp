@@ -35,3 +35,8 @@ void Model::prepareRender(RenderState* state)
 		child->prepareRender(state);
 	}
 }
+
+void Model::setMesh(Mesh& mesh)
+{
+	this->mesh = &mesh;
+}

@@ -35,8 +35,8 @@ public:
 	void setTransform(glm::mat4& transform);
 	glm::mat4 getTransform();
 	glm::mat4 getAbsoluteTransform();
-	virtual void addChild(Object3D* model);
-	virtual void removeChild(Object3D* model);
+	virtual void addChild(Object3D& model);
+	virtual void removeChild(Object3D& model);
 	virtual void render(RenderContext* context);
 	virtual void prepareRender(RenderState* state);
 };

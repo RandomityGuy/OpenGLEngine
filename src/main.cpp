@@ -65,38 +65,38 @@ int main()
     dirLight.diffuse = diffuseColor;
     dirLight.specular = glm::vec3(1, 1, 1);
 
-    renderer.scene->addChild(&dirLight);
+    renderer.scene->addChild(dirLight);
 
 
     Model model;
     Mesh mesh;
     mesh.load("data/cube.obj");
-    model.mesh = &mesh;
+    model.setMesh(mesh);
 
     glm::mat4 tform = glm::mat4(1);
    
     model.setTransform(tform);
 
-    renderer.scene->addChild(&model);
+    renderer.scene->addChild(model);
 
     Model model2;
     Mesh mesh2;
     mesh2.load("data/window.obj");
     mesh2.materials[0].transparent = true;
-    model2.mesh = &mesh2;
+    model2.setMesh(mesh2);
 
     glm::mat4 tform2 = glm::translate(tform, glm::vec3(0, 5, 0));
     model2.setTransform(tform2);
 
-    renderer.scene->addChild(&model2);
+    renderer.scene->addChild(model2);
 
     Model model3;
-    model3.mesh = &mesh2;
+    model3.setMesh(mesh2);
 
     glm::mat4 tform3 = glm::translate(tform, glm::vec3(2, 8, 0));
     model3.setTransform(tform3);
 
-    renderer.scene->addChild(&model3);
+    renderer.scene->addChild(model3);
 
     double prevT = glfwGetTime();
 
