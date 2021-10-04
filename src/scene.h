@@ -3,6 +3,7 @@
 #include <queue>
 #include "camera.h"
 #include "window.h"
+#include <skybox.h>
 
 
 struct RenderNode
@@ -49,6 +50,7 @@ public:
 	int sceneSpotLights = 0;
 
 	Camera* camera;
+	Skybox* skybox;
 
 	virtual void prepareRender(RenderState* state);
 	virtual void addChild(Object3D* model);

@@ -98,23 +98,6 @@ int main()
 
     renderer.scene->addChild(&model3);
 
-    std::vector<std::string> faces
-    {
-        "data/skybox/right.jpg",
-        "data/skybox/left.jpg",
-        "data/skybox/front.jpg",
-        "data/skybox/back.jpg",
-        "data/skybox/top.jpg",
-        "data/skybox/bottom.jpg"
-    };
-
-    CubeMap cubemap;
-    cubemap.load(faces);
-
-    Skybox skybox;
-    skybox.cubemap = &cubemap;
-    renderer.scene->addChild(&skybox);
-
     double prevT = glfwGetTime();
 
     while (!window->shouldClose())

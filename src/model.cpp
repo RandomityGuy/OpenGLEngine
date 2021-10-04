@@ -4,6 +4,8 @@
 void Model::render(RenderContext* context)
 {
 	context->currentPass->shader->setUniform("model", this->getAbsoluteTransform());
+	context->currentPass->shader->setUniform("modelInverseTranspose", this->inverseTransposeTransform);
+	context->currentPass->shader->activateCubemap(*this->scene->skybox->cubemap, "skybox", 4);
 	if (this->mesh != NULL)
 		this->mesh->render(context);
 }

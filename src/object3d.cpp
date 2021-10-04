@@ -7,6 +7,8 @@ Object3D::Object3D()
 {
 	this->transform = glm::mat4(1);
 	this->absTransform = glm::mat4(1);
+	this->inverseTransform = glm::mat4(1);
+	this->inverseTransposeTransform = glm::mat4(1);
 	this->parent = NULL;
 }
 
@@ -31,6 +33,8 @@ glm::mat4 Object3D::getAbsoluteTransform()
 	{
 		glm::mat4 parentTransform = this->parent != NULL ? this->parent->getAbsoluteTransform() : glm::mat4(1);
 		this->absTransform = parentTransform * this->transform;
+		this->inverseTransform = glm::inverse(this->absTransform);
+		this->inverseTransposeTransform = glm::transpose(this->inverseTransform);
 		this->_syncTransform = false;
 	}
 	return this->absTransform;

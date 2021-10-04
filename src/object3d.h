@@ -16,11 +16,15 @@ struct RenderState;
 
 class Object3D
 {
-	glm::mat4 transform;
-	glm::mat4 absTransform;
 	bool _syncTransform = true;
 
 	void _sync();
+
+protected:
+	glm::mat4 transform;
+	glm::mat4 absTransform;
+	glm::mat4 inverseTransform;
+	glm::mat4 inverseTransposeTransform;
 public:
 	Object3D* parent;
 	Scene* scene;

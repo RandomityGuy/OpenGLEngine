@@ -86,6 +86,7 @@ void Mesh::load(const char* path)
                 faceMat.emissionColor = glm::vec3(mat.emission[0], mat.emission[1], mat.emission[2]);
                 faceMat.emissionTex = mat.emissive_texname.empty() ? mat.emissive_texname : directory + mat.emissive_texname;
                 faceMat.shininess = mat.shininess;
+                faceMat.reflectivity = mat.metallic;
                 face->materialIndex = this->materials.size();
                 this->materials.push_back(faceMat);
             }
@@ -285,6 +286,7 @@ void Mesh::render(RenderContext* context)
         shader->setUniform("material.emissionColor", material.emissionColor);
 
         shader->setUniform("material.shininess", material.shininess);
+        shader->setUniform("material.reflectivity", material.reflectivity);
 
         vgroup.VAO->bind();
         glDrawElements(GL_TRIANGLES, vgroup.indices.size(), GL_UNSIGNED_INT, 0);

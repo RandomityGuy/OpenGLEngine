@@ -49,6 +49,7 @@ public:
 		std::string emissionTex;
 		Texture2D* emissionTexture2D = NULL;
 		float shininess;
+		float reflectivity;
 		float alpha = 1;
 		bool transparent = false;
 	};

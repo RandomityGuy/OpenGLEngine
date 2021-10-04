@@ -5,3 +5,5 @@ Ks 0.2 0.2 0.2
 Ns 128
 Tr 0
 map_Kd container2.png
+map_Ks container2_specular.png
+Pm 4

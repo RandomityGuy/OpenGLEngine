@@ -13,7 +13,7 @@ CubeMap::~CubeMap()
 
 void CubeMap::bind()
 {
-	glBindBuffer(GL_TEXTURE_CUBE_MAP, this->id);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, this->id);
 }
 
 void CubeMap::load(std::vector<std::string> faces)
