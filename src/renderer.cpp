@@ -9,9 +9,6 @@ Renderer::Renderer(Window* window) : window(window)
 	DefaultPass* defpass = new DefaultPass();
 	this->passes.insert(std::make_pair(defpass->name,defpass));
 
-	RefractPass* refpass = new RefractPass();
-	this->passes.insert(std::make_pair(refpass->name, refpass));
-
 	PostFXPass* postFX = new PostFXPass();
 	this->postFXPasses.insert(std::make_pair(postFX->name, postFX));
 }

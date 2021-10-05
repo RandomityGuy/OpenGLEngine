@@ -78,8 +78,8 @@ int main()
     renderer.scene->addChild(dirLight);
 
 
-    RefractModel model;
-    RefractMesh mesh;
+    Model model;
+    Mesh mesh;
     mesh.load("data/cube.obj");
     model.setMesh(mesh);
 
