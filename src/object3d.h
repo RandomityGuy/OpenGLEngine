@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include <glm/glm.hpp>
-#include "mesh.h"
 #include "shader.h"
 #include "renderContext.h"
 

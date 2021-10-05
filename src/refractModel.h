@@ -1,12 +1,12 @@
 #pragma once
 #include "object3d.h"
-#include "mesh.h"
+#include "refractMesh.h"
 
-class Model : public Object3D
+class RefractModel : public Object3D
 {
 public:
-	Mesh* mesh;
+	RefractMesh* mesh;
 	virtual void render(RenderContext* context);
 	virtual void prepareRender(RenderState* state);
-	void setMesh(Mesh& mesh);
+	void setMesh(RefractMesh& mesh);
 };

@@ -1,12 +1,16 @@
 #include "renderer.h"
 #include "defaultPass.h"
 #include "postFXPass.h"
+#include "refractPass.h"
 
 Renderer::Renderer(Window* window) : window(window)
 {
 	this->scene = new Scene(window);
 	DefaultPass* defpass = new DefaultPass();
 	this->passes.insert(std::make_pair(defpass->name,defpass));
+
+	RefractPass* refpass = new RefractPass();
+	this->passes.insert(std::make_pair(refpass->name, refpass));
 
 	PostFXPass* postFX = new PostFXPass();
 	this->postFXPasses.insert(std::make_pair(postFX->name, postFX));
@@ -52,6 +56,8 @@ void Renderer::render()
 			next.obj->render(&context);
 			currentQueue.pop();
 		}
+
+		pass.second->postApply(&context);
 	}
 
 	for (auto& pass : this->postFXPasses)
@@ -64,6 +70,7 @@ void Renderer::render()
 		context.camera = this->scene->camera;
 
 		pass.second->apply(&context);
+		pass.second->postApply(&context);
 	}
 
 	GLint currentFBO = 0;

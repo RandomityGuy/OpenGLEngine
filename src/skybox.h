@@ -1,6 +1,8 @@
 #pragma once
 #include "object3d.h"
 #include "cubeMap.h"
+#include "vertexArray.h"
+#include "vertexBuffer.h"
 
 class Skybox : public Object3D
 {

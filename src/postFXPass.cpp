@@ -2,6 +2,7 @@
 #include "GL.h"
 #include "renderContext.h"
 #include "defaultPass.h"
+#include "refractPass.h"
 
 PostFXPass::PostFXPass()
 {
@@ -62,5 +63,7 @@ void PostFXPass::apply(RenderContext* context)
 	// forward pass
 	DefaultPass* defpass = (DefaultPass*)context->passList["fwd"];
 	this->shader->activateTexture(*defpass->colorBuffer, "screenTexture", 0);
+	RefractPass* refpass = (RefractPass*)context->passList["refract"];
+	this->shader->activateTexture(*refpass->colorBuffer, "refractTexture", 1);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }

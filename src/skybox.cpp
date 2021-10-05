@@ -71,6 +71,8 @@ Skybox::~Skybox()
 
 void Skybox::render(RenderContext* context)
 {
+    if (context->currentPass->name != "fwd")
+        return;
     GL::depthFunc(GL::CompareFunc::LessThanEquals);
     this->shader->activate();
     glm::mat4 view = glm::mat4(glm::mat3(context->camera->view));

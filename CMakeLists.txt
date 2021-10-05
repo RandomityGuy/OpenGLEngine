@@ -80,6 +80,12 @@ set(ENGINE_SRC
     src/cubeMap.h
     src/skybox.cpp
     src/skybox.h
+    src/refractMesh.cpp
+    src/refractMesh.h
+    src/refractModel.cpp
+    src/refractModel.h
+    src/refractPass.cpp
+    src/refractPass.h
     
     src/stb_image.h
 )

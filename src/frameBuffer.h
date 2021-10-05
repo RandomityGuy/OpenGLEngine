@@ -4,8 +4,15 @@
 #include <renderBuffer.h>
 #include <vector>
 
+class Pass;
+class DefaultPass;
+class PostFXPass;
+
 class FrameBuffer
 {
+	friend class Pass;
+	friend class DefaultPass;
+	friend class PostFXPass;
 	GLuint id;
 public:
 

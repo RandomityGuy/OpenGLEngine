@@ -20,6 +20,11 @@
 #include "light.h"
 #include "renderer.h"
 #include "skybox.h"
+#include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
+#include <refractMesh.h>
+#include <refractModel.h>
 
 
 int main()
@@ -53,6 +58,11 @@ int main()
 
     stbi_set_flip_vertically_on_load(true);
 
+    ImGui::CreateContext();
+    ImGui::StyleColorsDark();
+    ImGui_ImplGlfw_InitForOpenGL(window->window, true); // true installs callbacks automatically
+    ImGui_ImplOpenGL3_Init("#version 430\n");
+
     Renderer renderer(window);
 
     glm::vec3 lightPos(-1, -1, -1);
@@ -68,8 +78,8 @@ int main()
     renderer.scene->addChild(dirLight);
 
 
-    Model model;
-    Mesh mesh;
+    RefractModel model;
+    RefractMesh mesh;
     mesh.load("data/cube.obj");
     model.setMesh(mesh);
 
@@ -111,9 +121,31 @@ int main()
         renderer.scene->camera->update(dt);
         renderer.render();
 
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+
+        ImGui::NewFrame();
+        ImGui::Begin("Debug Information");
+        ImGui::SetWindowSize(ImVec2(400, 120));
+        ImGui::Text("Frame Rate: %.1f FPS", ImGui::GetIO().Framerate);
+
+        ImGui::Separator();
+        ImGui::Text("GL Renderer: %s", glGetString(GL_RENDERER));
+        ImGui::Text("GL Vendor: %s", glGetString(GL_VENDOR));
+        ImGui::Text("GL Version: %s", glGetString(GL_VERSION));
+
+        ImGui::End();
+        ImGui::Render();
+
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         window->swapBuffers();
         glfwPollEvents();
     }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     glfwTerminate();
 

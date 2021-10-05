@@ -245,8 +245,6 @@ void Mesh::render(RenderContext* context)
 
     for (auto& vgroup : vertexGroups)
     {
-        
-
         Mesh::Material& material = this->materials[vgroup.materialIndex];
         if (material.ambientTexture2D != NULL)
         {

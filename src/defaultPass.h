@@ -9,5 +9,5 @@ public:
 	Texture2D* colorBuffer;
 	RenderBuffer* renderBuffer;
 
-	void apply(RenderContext* context);
+	virtual void apply(RenderContext* context);
 };

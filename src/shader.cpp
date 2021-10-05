@@ -148,6 +148,12 @@ void Shader::setUniform<glm::vec3>(const char* name, glm::vec3 value)
 	glUniform3f(this->getUniformLocation(name), value.x, value.y, value.z);
 }
 
+template<>
+void Shader::setUniform<glm::vec2>(const char* name, glm::vec2 value)
+{
+	glUniform2f(this->getUniformLocation(name), value.x, value.y);
+}
+
 void Shader::activateTexture(Texture2D& texture, const char* uniformName, int index)
 {
 	glActiveTexture(GL_TEXTURE0 + index);
@@ -172,5 +178,6 @@ template void Shader::setUniform<int>(std::string&& name, int value);
 template void Shader::setUniform<float>(std::string&& name, float value);
 template void Shader::setUniform<double>(std::string&& name, double value);
 template void Shader::setUniform<bool>(std::string&& name, bool value);
+template void Shader::setUniform<glm::vec2>(std::string&& name, glm::vec2 value);
 template void Shader::setUniform<glm::vec3>(std::string&& name, glm::vec3 value);
 template void Shader::setUniform<glm::mat4>(std::string&& name, glm::mat4 value);

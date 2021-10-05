@@ -16,4 +16,5 @@ public:
 	~Pass();
 
 	virtual void apply(RenderContext* context);
+	virtual void postApply(RenderContext* context);
 };

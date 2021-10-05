@@ -7,9 +7,9 @@
 class Window
 {
 
-	GLFWwindow* window;
 
 public:
+	GLFWwindow* window;
 	Window();
 	~Window();
 

@@ -4,6 +4,8 @@
 
 void DirLight::render(RenderContext* context)
 {
+    if (context->currentPass->name != "fwd")
+        return;
     Shader* shader = context->currentPass->shader;
     this->scene->sceneDirLights++;
     if (this->scene->maxDirLights < this->scene->sceneDirLights)
@@ -24,6 +26,8 @@ void DirLight::prepareRender(RenderState* state)
 
 void PointLight::render(RenderContext* context)
 {
+    if (context->currentPass->name != "fwd")
+        return;
     Shader* shader = context->currentPass->shader;
     this->scene->scenePointLights++;
     if (this->scene->maxPointLights < this->scene->scenePointLights)
@@ -54,6 +58,8 @@ void PointLight::prepareRender(RenderState* state)
 
 void SpotLight::render(RenderContext* context)
 {
+    if (context->currentPass->name != "fwd")
+        return;
     Shader* shader = context->currentPass->shader;
     this->scene->sceneSpotLights++;
     if (this->scene->maxSpotLights < this->scene->sceneSpotLights)

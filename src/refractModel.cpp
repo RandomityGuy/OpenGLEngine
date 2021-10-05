@@ -1,29 +1,20 @@
-#include "model.h"
+#include "refractModel.h"
 #include "scene.h"
 
-void Model::render(RenderContext* context)
+void RefractModel::render(RenderContext* context)
 {
-	if (context->currentPass->name != "fwd")
+	if (context->currentPass->name != "refract")
 		return;
 	context->currentPass->shader->setUniform("model", this->getAbsoluteTransform());
 	context->currentPass->shader->setUniform("modelInverseTranspose", this->inverseTransposeTransform);
-	context->currentPass->shader->activateCubemap(*this->scene->skybox->cubemap, "skybox", 4);
 	if (this->mesh != NULL)
 		this->mesh->render(context);
 }
 
-void Model::prepareRender(RenderState* state)
+void RefractModel::prepareRender(RenderState* state)
 {
 	float renderOrder = RENDER_ORDER_OPAQUE;
-	bool isTransparent = false;
-	for (auto& mat : this->mesh->materials)
-	{
-		if (mat.alpha != 1 || mat.transparent)
-		{
-			isTransparent = true;
-			break;
-		}
-	}
+	bool isTransparent = true;
 	if (isTransparent)
 	{
 		glm::vec3 pos = glm::vec3(this->getAbsoluteTransform()[3]);
@@ -38,7 +29,7 @@ void Model::prepareRender(RenderState* state)
 	}
 }
 
-void Model::setMesh(Mesh& mesh)
+void RefractModel::setMesh(RefractMesh& mesh)
 {
 	this->mesh = &mesh;
 }

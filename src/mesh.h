@@ -63,7 +63,7 @@ public:
 	void load(const char* path);
 	void loadMaterialTextures();
 	void disposeMaterialTextures();
-	void generateBuffers();
-	void disposeBuffers();
-	void render(RenderContext* context);
+	virtual void generateBuffers();
+	virtual void disposeBuffers();
+	virtual void render(RenderContext* context);
 };
