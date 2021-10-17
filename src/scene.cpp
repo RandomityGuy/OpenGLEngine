@@ -58,3 +58,9 @@ void Scene::render(Shader* shader)
 {
 
 }
+
+void Scene::update(float dt)
+{
+	this->camera->update(dt);
+	Object3D::update(dt);
+}

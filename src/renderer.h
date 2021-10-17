@@ -16,4 +16,5 @@ public:
 	Scene* scene;
 
 	void render();
+	void update(float dt);
 };

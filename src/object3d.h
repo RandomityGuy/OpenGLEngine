@@ -38,4 +38,5 @@ public:
 	virtual void removeChild(Object3D& model);
 	virtual void render(RenderContext* context);
 	virtual void prepareRender(RenderState* state);
+	virtual void update(float dt);
 };

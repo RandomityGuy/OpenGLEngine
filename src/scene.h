@@ -56,4 +56,5 @@ public:
 	virtual void addChild(Object3D& model);
 	virtual void removeChild(Object3D& model);
 	virtual void render(Shader* state);
+	virtual void update(float dt);
 };

@@ -14,6 +14,13 @@ public:
 		Dynamic = GL_DYNAMIC_DRAW
 	};
 
+	enum BufferIOType
+	{
+		Read = GL_READ_ONLY,
+		Write = GL_WRITE_ONLY,
+		ReadWrite = GL_READ_WRITE,
+	};
+
 	VertexBuffer();
 	~VertexBuffer();
 	VertexBuffer(const VertexBuffer&) = delete;
@@ -37,4 +44,7 @@ public:
 
 	void bind();
 	void uploadData(GLsizeiptr size, const void* data, BufferDrawType type);
+	void uploadData(GLsizeiptr size, const void* data, int offset);
+	void* getData(BufferIOType type);
+	void unmapData();
 };

@@ -75,3 +75,8 @@ void Renderer::render()
 	glBlitNamedFramebuffer(currentFBO, 0, 0, 0, this->window->width, this->window->height, 0, 0, this->window->width, this->window->height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
+
+void Renderer::update(float dt)
+{
+	this->scene->update(dt);
+}

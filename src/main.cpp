@@ -26,6 +26,23 @@
 #include <refractMesh.h>
 #include <refractModel.h>
 
+#define M_PI 3.14158265f
+
+void renderGui()
+{
+    ImGui::NewFrame();
+    //ImGui::Begin("Debug Information");
+    //ImGui::SetWindowSize(ImVec2(400, 120));
+    //ImGui::Text("Frame Rate: %.1f FPS", ImGui::GetIO().Framerate);
+
+    //ImGui::Separator();
+    //ImGui::Text("GL Renderer: %s", glGetString(GL_RENDERER));
+    //ImGui::Text("GL Vendor: %s", glGetString(GL_VENDOR));
+    //ImGui::Text("GL Version: %s", glGetString(GL_VERSION));
+
+    //ImGui::End();
+    ImGui::Render();
+}
 
 int main()
 {
@@ -89,24 +106,44 @@ int main()
 
     renderer.scene->addChild(model);
 
-    Model model2;
-    Mesh mesh2;
-    mesh2.load("data/window.obj");
-    mesh2.materials[0].transparent = true;
-    model2.setMesh(mesh2);
+    Model windowModel;
+    Mesh windowMesh;
+    windowMesh.load("data/window.obj");
+    windowMesh.materials[0].transparent = true;
+    windowModel.setMesh(windowMesh);
 
-    glm::mat4 tform2 = glm::translate(tform, glm::vec3(0, 5, 0));
-    model2.setTransform(tform2);
 
-    renderer.scene->addChild(model2);
+    glm::mat4 tform2 = glm::translate(tform, glm::vec3(2, 0, 0));
+    tform2 = glm::rotate(tform2, (float)M_PI / 2, glm::vec3(0, 0, 1));
+    windowModel.setTransform(tform2);
 
-    Model model3;
-    model3.setMesh(mesh2);
+    model.addChild(windowModel);
 
-    glm::mat4 tform3 = glm::translate(tform, glm::vec3(2, 8, 0));
-    model3.setTransform(tform3);
+    Model windowModel2;
+    windowModel2.setMesh(windowMesh);
 
-    renderer.scene->addChild(model3);
+    glm::mat4 tform3 = glm::translate(tform, glm::vec3(-3, 0, 0));
+    tform3 = glm::rotate(tform3, (float)M_PI / 2, glm::vec3(0, 0, 1));
+    windowModel2.setTransform(tform3);
+
+    model.addChild(windowModel2);
+
+
+    Model windowModel3;
+    windowModel3.setMesh(windowMesh);
+
+    glm::mat4 tform4 = glm::translate(tform, glm::vec3(0, -2, 0));
+    windowModel3.setTransform(tform4);
+
+    model.addChild(windowModel3);
+
+    Model windowModel4;
+    windowModel4.setMesh(windowMesh);
+
+    glm::mat4 tform5 = glm::translate(tform, glm::vec3(0, 3, 0));
+    windowModel4.setTransform(tform5);
+
+    model.addChild(windowModel4);
 
     double prevT = glfwGetTime();
 
@@ -118,24 +155,25 @@ int main()
 
         window->processInput();
 
-        renderer.scene->camera->update(dt);
+        float rot = M_PI / 4 * t;
+
+        rot = fmodf(rot, 2 * M_PI);
+
+        glm::mat4 rotmat = glm::rotate(tform, rot, glm::vec3(0, 0, 1));
+
+        model.setTransform(rotmat);
+
+        //glm::mat4 rotmat2 = glm::translate(rotmat, glm::vec3(5 * sinf((float)(M_PI / 4 * t)), 5 * cosf((float)(M_PI / 4 * t)), 0));
+
+        //windowModel.setTransform(rotmat2);
+
+        renderer.update(dt);
         renderer.render();
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
 
-        ImGui::NewFrame();
-        ImGui::Begin("Debug Information");
-        ImGui::SetWindowSize(ImVec2(400, 120));
-        ImGui::Text("Frame Rate: %.1f FPS", ImGui::GetIO().Framerate);
-
-        ImGui::Separator();
-        ImGui::Text("GL Renderer: %s", glGetString(GL_RENDERER));
-        ImGui::Text("GL Vendor: %s", glGetString(GL_VENDOR));
-        ImGui::Text("GL Version: %s", glGetString(GL_VERSION));
-
-        ImGui::End();
-        ImGui::Render();
+        renderGui();
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

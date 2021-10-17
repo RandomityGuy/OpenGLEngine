@@ -93,3 +93,11 @@ void Object3D::prepareRender(RenderState* state)
 		child->prepareRender(state);
 	}
 }
+
+void Object3D::update(float dt)
+{
+	for (auto& child : children)
+	{
+		child->update(dt);
+	}
+}
