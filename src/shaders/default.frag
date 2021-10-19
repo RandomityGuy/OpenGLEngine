@@ -180,7 +180,9 @@ vec4 CalcDirLight(Light light, vec3 normal, vec3 viewDir) {
     float diff = max(dot(normal, lightDir), 0.0);
     // specular shading
     vec3 reflectDir = normalize(reflect(-lightDir, normal));
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+
+    vec3 halfwayDir = normalize(lightDir + viewDir);
+    float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess);
     // combine results
     vec4 ambient = vec4(light.ambient, 1) * (material.hasAmbient ? texture(material.ambient, TexCoords) : vec4(1)) * vec4(material.ambientColor, 1) * (material.hasDiffuse ? texture(material.diffuse, TexCoords) : vec4(1)) * vec4(material.diffuseColor, 1);
     vec4 diffuse = vec4(light.diffuse, 1) * diff * (material.hasDiffuse ? texture(material.diffuse, TexCoords) : vec4(1)) * vec4(material.diffuseColor, 1);
@@ -199,7 +201,9 @@ vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir) {
     float diff = max(dot(normal, lightDir), 0.0);
     // specular shading
     vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+
+    vec3 halfwayDir = normalize(lightDir + viewDir);
+    float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess);
     // attenuation
     float distance = length(light.position - fragPos);
     float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));    
@@ -220,7 +224,9 @@ vec4 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir) {
     float diff = max(dot(normal, lightDir), 0.0);
     // specular shading
     vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+
+    vec3 halfwayDir = normalize(lightDir + viewDir);
+    float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess);
     // attenuation
     float distance = length(light.position - fragPos);
     float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));    
