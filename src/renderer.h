@@ -1,7 +1,9 @@
+#pragma once
 #include "scene.h"
 #include "pass.h"
 #include <vector>
 #include <map>
+#include "passList.h"
 
 class Renderer
 {
@@ -11,8 +13,8 @@ public:
 	Renderer(Window* window);
 	~Renderer();
 
-	std::map<std::string, Pass*> passes;
-	std::map<std::string, Pass*> postFXPasses;
+	PassList* passes;
+	PassList* postFXPasses;
 	Scene* scene;
 
 	void render();

@@ -86,6 +86,10 @@ set(ENGINE_SRC
     src/refractModel.h
     src/refractPass.cpp
     src/refractPass.h
+    src/gammaCorrectionPass.cpp
+    src/gammaCorrectionPass.h
+    src/passList.cpp
+    src/passList.h
     
     src/stb_image.h
 )

@@ -2,25 +2,30 @@
 #include "defaultPass.h"
 #include "postFXPass.h"
 #include "refractPass.h"
+#include "gammaCorrectionPass.h"
+#include "passList.h"
 
 Renderer::Renderer(Window* window) : window(window)
 {
 	this->scene = new Scene(window);
+	
+	this->passes = new PassList();
+	this->postFXPasses = new PassList();
+
 	DefaultPass* defpass = new DefaultPass();
-	this->passes.insert(std::make_pair(defpass->name,defpass));
+	this->passes->addPass(defpass);
 
 	PostFXPass* postFX = new PostFXPass();
-	this->postFXPasses.insert(std::make_pair(postFX->name, postFX));
+	this->postFXPasses->addPass(postFX);
+
+	GammaCorrectionPass* gammaCorrection = new GammaCorrectionPass();
+	this->postFXPasses->addPass(gammaCorrection);
 }
 
 Renderer::~Renderer()
 {
-	for (auto& pass : passes)
-		delete pass.second;
-
-	for (auto& pass : postFXPasses)
-		delete pass.second;
-
+	delete passes;
+	delete postFXPasses;
 	delete scene;
 }
 
@@ -34,16 +39,18 @@ void Renderer::render()
 	this->scene->scenePointLights = 0;
 	this->scene->sceneSpotLights = 0;
 
-	for (auto& pass : this->passes)
+	Pass* lastPass = NULL;
+	for (auto& pass : *this->passes)
 	{
 		std::priority_queue<RenderNode, std::vector<RenderNode>, CompareRenderOrder> currentQueue = sceneRenderState.renderqueue;
 
 		RenderContext context;
-		context.currentPass = pass.second;
+		context.currentPass = pass.pass;
 		context.passList = this->passes;
 		context.camera = this->scene->camera;
+		context.lastPass = lastPass;
 
-		pass.second->apply(&context);
+		pass.pass->apply(&context);
 
 		this->scene->camera->render(&context);
 
@@ -54,20 +61,27 @@ void Renderer::render()
 			currentQueue.pop();
 		}
 
-		pass.second->postApply(&context);
+		pass.pass->postApply(&context);
+
+		lastPass = pass.pass;
 	}
 
-	for (auto& pass : this->postFXPasses)
+	lastPass = NULL;
+
+	for (auto& pass : *this->postFXPasses)
 	{
 		std::priority_queue<RenderNode, std::vector<RenderNode>, CompareRenderOrder> currentQueue = sceneRenderState.renderqueue;
 
 		RenderContext context;
-		context.currentPass = pass.second;
+		context.currentPass = pass.pass;
 		context.passList = this->passes;
 		context.camera = this->scene->camera;
+		context.lastPass = lastPass;
 
-		pass.second->apply(&context);
-		pass.second->postApply(&context);
+		pass.pass->apply(&context);
+		pass.pass->postApply(&context);
+
+		lastPass = pass.pass;
 	}
 
 	GLint currentFBO = 0;

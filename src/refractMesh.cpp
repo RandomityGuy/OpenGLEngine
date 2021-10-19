@@ -11,7 +11,7 @@ void RefractMesh::render(RenderContext* context)
     // Set the camera and the transform uniforms from the model class, not here
 
     GL::setDepthTest(false);
-    DefaultPass* pass = (DefaultPass*)context->passList["fwd"];
+    DefaultPass* pass = (DefaultPass*)context->passList->operator[]("fwd");
 
     context->currentPass->shader->setUniform("viewPos", context->camera->position);
     context->currentPass->shader->setUniform("ior", 1.5f);

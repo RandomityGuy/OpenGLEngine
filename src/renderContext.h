@@ -3,11 +3,13 @@
 #include <vector>
 #include <camera.h>
 #include <map>
+#include "passList.h"
 
 struct RenderContext
 {
 	Pass* currentPass;
-	std::map<std::string,Pass*> passList;
+	Pass* lastPass;
+	PassList* passList;
 
 	Camera* camera;
 };

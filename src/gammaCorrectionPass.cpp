@@ -1,14 +1,12 @@
-#include "postFXPass.h"
-#include "GL.h"
+#include "gammaCorrectionPass.h"
+#include <GL.h>
 #include "renderContext.h"
 #include "defaultPass.h"
-#include "refractPass.h"
-#include "passList.h"
 
-PostFXPass::PostFXPass()
+GammaCorrectionPass::GammaCorrectionPass()
 {
-	this->name = "postFX";
-	this->shader = new Shader("shaders/postFX.vert", "shaders/postFX.frag");
+	this->name = "gammaCorrection";
+	this->shader = new Shader("shaders/gammaCorrectionPostFX.vert", "shaders/gammaCorrectionPostFX.frag");
 	shader->compile();
 
 	this->colorBuffer = new Texture2D();
@@ -43,7 +41,7 @@ PostFXPass::PostFXPass()
 	GL::bindVertexArray(0);
 }
 
-PostFXPass::~PostFXPass()
+GammaCorrectionPass::~GammaCorrectionPass()
 {
 	delete this->frameBuffer;
 	delete this->colorBuffer;
@@ -51,7 +49,7 @@ PostFXPass::~PostFXPass()
 	delete this->quadVBO;
 }
 
-void PostFXPass::apply(RenderContext* context)
+void GammaCorrectionPass::apply(RenderContext* context)
 {
 	this->frameBuffer->activate();
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -59,11 +57,11 @@ void PostFXPass::apply(RenderContext* context)
 
 	GL::setDepthTest(false);
 	this->shader->activate();
+	this->shader->setUniform("gamma", this->gamma);
 	this->quadVAO->bind();
 
-	// forward pass
-	PassList& passList = *context->passList;
-	DefaultPass* defpass = (DefaultPass*)passList["fwd"];
+	// postFX pass
+	PostFXPass* defpass = (PostFXPass*)context->lastPass;
 	this->shader->activateTexture(*defpass->colorBuffer, "screenTexture", 0);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }

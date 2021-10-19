@@ -129,3 +129,11 @@ void GL::frontFace(WindingOrder order)
 {
 	glFrontFace((GLenum)order);
 }
+
+void GL::setSRGBGammaCorrection(bool enabled)
+{
+	if (enabled)
+		glEnable(GL_FRAMEBUFFER_SRGB);
+	else
+		glDisable(GL_FRAMEBUFFER_SRGB);
+}

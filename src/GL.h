@@ -125,4 +125,7 @@ public:
 	static void setCulling(bool enabled);
 	static void cullFace(CullFace face);
 	static void frontFace(WindingOrder order);
+
+	// Gamma Correction built-in
+	static void setSRGBGammaCorrection(bool enabled);
 };
